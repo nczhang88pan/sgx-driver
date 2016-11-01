@@ -1,0 +1,1 @@
+cmd_/home/alex/sgx-driver/driver0/isgx.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/alex/sgx-driver/driver0/isgx.ko /home/alex/sgx-driver/driver0/isgx.o /home/alex/sgx-driver/driver0/isgx.mod.o
