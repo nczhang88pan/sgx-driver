@@ -1,1 +1,0 @@
-cmd_/home/alex/sgx-driver/driver2/ops_test.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/alex/sgx-driver/driver2/ops_test.ko /home/alex/sgx-driver/driver2/ops_test.o /home/alex/sgx-driver/driver2/ops_test.mod.o

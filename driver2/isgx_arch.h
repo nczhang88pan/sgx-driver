@@ -149,7 +149,6 @@ enum {
 	ETRACK	= 0xC,
 };
 //for test use
-extern int test(void);
 extern unsigned long __ecreate(struct page_info *pginfo, void *secs);
 
 extern  int __eextend(void *secs, void *epc);

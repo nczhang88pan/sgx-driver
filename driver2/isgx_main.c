@@ -29,6 +29,21 @@ u64 isgx_xfrm_mask = 0x3;
 u32 isgx_ssaframesize_tbl[64];
 
 //局部变量
+static const struct file_operations isgx_fops = {
+// 	.owner		= THIS_MODULE,
+// 	.unlocked_ioctl	= isgx_ioctl,
+// #ifdef CONFIG_COMPAT
+// 	.compat_ioctl	= isgx_compat_ioctl,
+// #endif
+// 	.mmap		= isgx_mmap,
+// 	.get_unmapped_area = isgx_get_unmapped_area,
+};
+
+static struct miscdevice isgx_dev = {
+	.name	= "isgx",
+	.fops	= &isgx_fops,
+	.mode   = S_IRUGO | S_IWUGO,
+};
 #ifndef X86_FEATURE_SGX
 #define X86_FEATURE_SGX (9 * 32 + 2)
 #endif
@@ -89,17 +104,14 @@ static int isgx_init_platform(void)
 	printk("flag is here\n");
 	return 0;
 }
-
+extern int test(void);
 static int __init isgx_init(void)
 {
 	int ret;
-	//unsigned int wq_flags;
+	unsigned int wq_flags;
+   	printk(KERN_ALERT "init sgx driver.\n");
+   	//a module test
    	test();
-   	printk(KERN_ALERT "init ops_test.\n");
-
-   	
-	//pr_info("isgx: "  " v" "\n");
-
 	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL)
 		return -ENODEV;
 
@@ -116,26 +128,27 @@ static int __init isgx_init(void)
 // 		return -ENOMEM;
 // #endif
 
-	ret = isgx_page_cache_init(isgx_epc_base, isgx_epc_size);		//
-// 	if (ret)
-// 		goto out_iounmap;
+	ret = isgx_page_cache_init(isgx_epc_base, isgx_epc_size);		//对EPC进行初始化,实现free list
+	if (ret)
+		goto out_iounmap;
 
-// 	wq_flags = WQ_UNBOUND | WQ_FREEZABLE;
-// #ifdef WQ_NON_REENETRANT
-// 	wq_flags |= WQ_NON_REENTRANT;
-// #endif
-// 	isgx_add_page_wq = alloc_workqueue("isgx-add-page-wq", wq_flags, 1);
-// 	if (!isgx_add_page_wq) {
-// 		pr_err("isgx: alloc_workqueue() failed\n");
-// 		ret = -ENOMEM;
-// 		goto out_iounmap;
-// 	}
-
-// 	ret = misc_register(&isgx_dev);
-// 	if (ret) {
-// 		pr_err("isgx: misc_register() failed\n");
-// 		goto out_workqueue;
-// 	}
+	wq_flags = WQ_UNBOUND | WQ_FREEZABLE;
+#ifdef WQ_NON_REENETRANT
+	wq_flags |= WQ_NON_REENTRANT;
+#endif
+	isgx_add_page_wq = alloc_workqueue("isgx-add-page-wq", wq_flags, 1);	//申请一个add page 专用的 workqueue
+	if (!isgx_add_page_wq) {
+		pr_err("isgx: alloc_workqueue() failed\n");
+		ret = -ENOMEM;
+		goto out_iounmap;
+	}
+	destroy_workqueue(isgx_add_page_wq);
+	printk("workqueue destoryed\n");
+	ret = misc_register(&isgx_dev);	//注册sgx设备
+	if (ret) {
+		pr_err("isgx: misc_register() failed\n");
+		goto out_workqueue;
+	}
 
 // 	ret = register_pm_notifier(&isgx_pm_notifier);
 // 	if (ret) {
@@ -145,25 +158,24 @@ static int __init isgx_init(void)
 
 // 	isgx_enable();
 
-// 	return 0;
-// out_misc:
-// 	misc_deregister(&isgx_dev);
-// out_workqueue:
-// 	destroy_workqueue(isgx_add_page_wq);
-// out_iounmap:
+	return 0;
+out_misc:
+	misc_deregister(&isgx_dev);
+out_workqueue:
+	destroy_workqueue(isgx_add_page_wq);
+out_iounmap:
 // #ifdef CONFIG_X86_64
 // 	iounmap(isgx_epc_mem);
 // #endif
-// 	return ret;
-  	 return 0;
+	return ret;
 }
 
 static void __exit isgx_exit(void)
 {
-  printk(KERN_ALERT "clean up ops_test.\n");
+  printk(KERN_ALERT "clean up sgx driver.\n");
 }  
 
 module_init(isgx_init);
 module_exit(isgx_exit);
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Someone Like You");
+MODULE_AUTHOR("lbx");
