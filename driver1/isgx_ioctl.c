@@ -122,29 +122,30 @@ atomic_t isgx_nr_pids = ATOMIC_INIT(0);
 //  * construct_enclave_page() - populate a new enclave page instance
 //  * @enclave	an enclave
 //  * @entry	the enclave page to be populated
-//  * @addr	the linear address of the enclave page
+//  * @addr	the linear address of the enclave page//enclave页的线性地址
 //  *
 //  * Allocates VA slot for the enclave page and fills out its fields. Returns
 //  * an error code on failure that can be either a POSIX error code or one of the
 //  * error codes defined in isgx_user.h.
 //  */
-// static int construct_enclave_page(struct isgx_enclave *enclave,
-// 				  struct isgx_enclave_page *entry,
-// 				  unsigned long addr)
-// {
+int construct_enclave_page(struct isgx_enclave *enclave,
+				  struct isgx_enclave_page *entry,
+				  unsigned long addr)	//构建一个enclave页面,申请它的VA slot,并且填充它的内容
+{
+	printk("driver1: construct enclave page\n");
 // 	struct isgx_va_page *va_page;
 // 	struct isgx_epc_page *epc_page = NULL;
 // 	unsigned int va_offset = PAGE_SIZE;
 // 	void *vaddr;
 // 	int ret = 0;
 
-// 	list_for_each_entry(va_page, &enclave->va_pages, list) {
+// 	list_for_each_entry(va_page, &enclave->va_pages, list) {	//查找所有的va_page,看是否有剩余的va slot可以供这个页来使用
 // 		va_offset = isgx_alloc_va_slot(va_page);
 // 		if (va_offset < PAGE_SIZE)
 // 			break;
 // 	}
 
-// 	if (va_offset == PAGE_SIZE) {
+// 	if (va_offset == PAGE_SIZE) {				//当va_slot不足的时候,需要产生新的va_slot
 // 		va_page = kzalloc(sizeof(*va_page), GFP_KERNEL);
 // 		if (!va_page)
 // 			return -ENOMEM;
@@ -170,17 +171,17 @@ atomic_t isgx_nr_pids = ATOMIC_INIT(0);
 // 		}
 
 // 		va_page->epc_page = epc_page;
-// 		va_offset = isgx_alloc_va_slot(va_page);
-// 		list_add(&va_page->list, &enclave->va_pages);
+// 		va_offset = isgx_alloc_va_slot(va_page);	//重新选择va_slot
+// 		list_add(&va_page->list, &enclave->va_pages);	//将新的va_page加入到list当中
 // 	}
 
-// 	entry->va_page = va_page;
-// 	entry->va_offset = va_offset;
-// 	entry->addr = addr;
+// 	entry->va_page = va_page;	//设置enclave页的va_page
+// 	entry->va_offset = va_offset;	//设置enclave页的va_offset
+// 	entry->addr = addr;		//设置enclave页的地址
 
-// 	return 0;
-// }
-
+	return 0;
+}
+EXPORT_SYMBOL(construct_enclave_page);
 // static int get_enclave(unsigned long addr, struct isgx_enclave **enclave)
 // {
 // 	struct mm_struct *mm = current->mm;
@@ -870,3 +871,7 @@ atomic_t isgx_nr_pids = ATOMIC_INIT(0);
 // 	} while (!kref_put(&enclave->refcount, isgx_enclave_release) &&
 // 		 !is_empty);
 // }
+#ifndef EXPORT_ISGX
+#define EXPORT_ISGX
+EXPORT_SYMBOL(__ecreate);
+#endif

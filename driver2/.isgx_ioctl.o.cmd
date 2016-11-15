@@ -1,11 +1,11 @@
-cmd_/home/alex/sgx-driver/driver1/isgx_page_cache.o := gcc -Wp,-MD,/home/alex/sgx-driver/driver1/.isgx_page_cache.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/4.8/include -I./arch/x86/include -Iarch/x86/include/generated/uapi -Iarch/x86/include/generated  -Iinclude -I./arch/x86/include/uapi -Iarch/x86/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -D__KERNEL__ -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mtune=generic -mno-red-zone -mcmodel=kernel -funit-at-a-time -maccumulate-outgoing-args -DCONFIG_X86_X32_ABI -DCONFIG_AS_FXSAVEQ=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_CRC32=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -g -gdwarf-4 -pg -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO    -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(isgx_page_cache)"  -D"KBUILD_MODNAME=KBUILD_STR(enclave_ops)" -c -o /home/alex/sgx-driver/driver1/.tmp_isgx_page_cache.o /home/alex/sgx-driver/driver1/isgx_page_cache.c
+cmd_/home/alex/sgx-driver/driver2/isgx_ioctl.o := gcc -Wp,-MD,/home/alex/sgx-driver/driver2/.isgx_ioctl.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/4.8/include -I./arch/x86/include -Iarch/x86/include/generated/uapi -Iarch/x86/include/generated  -Iinclude -I./arch/x86/include/uapi -Iarch/x86/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -D__KERNEL__ -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mtune=generic -mno-red-zone -mcmodel=kernel -funit-at-a-time -maccumulate-outgoing-args -DCONFIG_X86_X32_ABI -DCONFIG_AS_FXSAVEQ=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_CRC32=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -g -gdwarf-4 -pg -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO    -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(isgx_ioctl)"  -D"KBUILD_MODNAME=KBUILD_STR(isgx)" -c -o /home/alex/sgx-driver/driver2/.tmp_isgx_ioctl.o /home/alex/sgx-driver/driver2/isgx_ioctl.c
 
-source_/home/alex/sgx-driver/driver1/isgx_page_cache.o := /home/alex/sgx-driver/driver1/isgx_page_cache.c
+source_/home/alex/sgx-driver/driver2/isgx_ioctl.o := /home/alex/sgx-driver/driver2/isgx_ioctl.c
 
-deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o := \
-  /home/alex/sgx-driver/driver1/isgx.h \
+deps_/home/alex/sgx-driver/driver2/isgx_ioctl.o := \
     $(wildcard include/config/x86/64.h) \
-  /home/alex/sgx-driver/driver1/isgx_user.h \
+  /home/alex/sgx-driver/driver2/isgx.h \
+  /home/alex/sgx-driver/driver2/isgx_user.h \
   include/linux/types.h \
     $(wildcard include/config/uid16.h) \
     $(wildcard include/config/lbdaf.h) \
@@ -44,19 +44,27 @@ deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o := \
   arch/x86/include/uapi/asm/ioctl.h \
   include/asm-generic/ioctl.h \
   include/uapi/asm-generic/ioctl.h \
-  /home/alex/sgx-driver/driver1/isgx_arch.h \
+  /home/alex/sgx-driver/driver2/isgx_arch.h \
   arch/x86/include/asm/asm.h \
-  include/linux/kernel.h \
-    $(wildcard include/config/preempt/voluntary.h) \
-    $(wildcard include/config/debug/atomic/sleep.h) \
-    $(wildcard include/config/mmu.h) \
-    $(wildcard include/config/prove/locking.h) \
-    $(wildcard include/config/panic/timeout.h) \
-    $(wildcard include/config/tracing.h) \
-    $(wildcard include/config/ftrace/mcount/record.h) \
-  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
-  include/linux/linkage.h \
+  include/linux/bitops.h \
+  arch/x86/include/asm/bitops.h \
+    $(wildcard include/config/x86/cmov.h) \
+  arch/x86/include/asm/alternative.h \
+    $(wildcard include/config/smp.h) \
+    $(wildcard include/config/paravirt.h) \
   include/linux/stringify.h \
+  arch/x86/include/asm/ptrace.h \
+    $(wildcard include/config/x86/debugctlmsr.h) \
+  arch/x86/include/asm/segment.h \
+    $(wildcard include/config/cc/stackprotector.h) \
+    $(wildcard include/config/tracing.h) \
+    $(wildcard include/config/x86/32/lazy/gs.h) \
+  include/uapi/linux/const.h \
+  arch/x86/include/asm/cache.h \
+    $(wildcard include/config/x86/l1/cache/shift.h) \
+    $(wildcard include/config/x86/internode/cache/shift.h) \
+    $(wildcard include/config/x86/vsmp.h) \
+  include/linux/linkage.h \
   include/linux/export.h \
     $(wildcard include/config/have/underscore/symbol/prefix.h) \
     $(wildcard include/config/modules.h) \
@@ -64,22 +72,6 @@ deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o := \
     $(wildcard include/config/unused/symbols.h) \
   arch/x86/include/asm/linkage.h \
     $(wildcard include/config/x86/alignment/16.h) \
-  include/linux/bitops.h \
-  arch/x86/include/asm/bitops.h \
-    $(wildcard include/config/x86/cmov.h) \
-  arch/x86/include/asm/alternative.h \
-    $(wildcard include/config/smp.h) \
-    $(wildcard include/config/paravirt.h) \
-  arch/x86/include/asm/ptrace.h \
-    $(wildcard include/config/x86/debugctlmsr.h) \
-  arch/x86/include/asm/segment.h \
-    $(wildcard include/config/cc/stackprotector.h) \
-    $(wildcard include/config/x86/32/lazy/gs.h) \
-  include/uapi/linux/const.h \
-  arch/x86/include/asm/cache.h \
-    $(wildcard include/config/x86/l1/cache/shift.h) \
-    $(wildcard include/config/x86/internode/cache/shift.h) \
-    $(wildcard include/config/x86/vsmp.h) \
   arch/x86/include/asm/page_types.h \
     $(wildcard include/config/physical/start.h) \
     $(wildcard include/config/physical/align.h) \
@@ -145,6 +137,22 @@ deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o := \
   arch/x86/include/uapi/asm/swab.h \
   include/linux/byteorder/generic.h \
   include/asm-generic/bitops/ext2-atomic-setbit.h \
+  include/linux/kref.h \
+  include/linux/bug.h \
+    $(wildcard include/config/generic/bug.h) \
+  arch/x86/include/asm/bug.h \
+    $(wildcard include/config/debug/bugverbose.h) \
+  include/asm-generic/bug.h \
+    $(wildcard include/config/bug.h) \
+    $(wildcard include/config/generic/bug/relative/pointers.h) \
+  include/linux/kernel.h \
+    $(wildcard include/config/preempt/voluntary.h) \
+    $(wildcard include/config/debug/atomic/sleep.h) \
+    $(wildcard include/config/mmu.h) \
+    $(wildcard include/config/prove/locking.h) \
+    $(wildcard include/config/panic/timeout.h) \
+    $(wildcard include/config/ftrace/mcount/record.h) \
+  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
   include/linux/log2.h \
     $(wildcard include/config/arch/has/ilog2/u32.h) \
     $(wildcard include/config/arch/has/ilog2/u64.h) \
@@ -163,14 +171,6 @@ deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o := \
   include/uapi/linux/kernel.h \
   include/uapi/linux/sysinfo.h \
   include/linux/dynamic_debug.h \
-  include/linux/kref.h \
-  include/linux/bug.h \
-    $(wildcard include/config/generic/bug.h) \
-  arch/x86/include/asm/bug.h \
-    $(wildcard include/config/debug/bugverbose.h) \
-  include/asm-generic/bug.h \
-    $(wildcard include/config/bug.h) \
-    $(wildcard include/config/generic/bug/relative/pointers.h) \
   include/linux/atomic.h \
     $(wildcard include/config/generic/atomic64.h) \
   arch/x86/include/asm/atomic.h \
@@ -668,9 +668,14 @@ deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o := \
     $(wildcard include/config/cgroup/pids.h) \
     $(wildcard include/config/cgroup/debug.h) \
   include/generated/uapi/linux/version.h \
-  include/linux/freezer.h \
-  include/linux/debug_locks.h \
-    $(wildcard include/config/debug/locking/api/selftests.h) \
+  arch/x86/include/uapi/asm/mman.h \
+  include/uapi/asm-generic/mman.h \
+  include/uapi/asm-generic/mman-common.h \
+    $(wildcard include/config/mmap/allow/uninitialized.h) \
+  include/linux/delay.h \
+  arch/x86/include/asm/delay.h \
+  include/asm-generic/delay.h \
+  include/linux/file.h \
   include/linux/highmem.h \
   include/linux/fs.h \
     $(wildcard include/config/fs/posix/acl.h) \
@@ -724,6 +729,8 @@ deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o := \
     $(wildcard include/config/debug/vm/rb.h) \
     $(wildcard include/config/debug/pagealloc.h) \
     $(wildcard include/config/hugetlbfs.h) \
+  include/linux/debug_locks.h \
+    $(wildcard include/config/debug/locking/api/selftests.h) \
   include/linux/page_ext.h \
     $(wildcard include/config/idle/page/tracking.h) \
     $(wildcard include/config/page/owner.h) \
@@ -798,7 +805,6 @@ deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o := \
   arch/x86/include/asm/cacheflush.h \
     $(wildcard include/config/debug/rodata/test.h) \
   include/asm-generic/cacheflush.h \
-  include/linux/kthread.h \
   include/linux/ratelimit.h \
   include/linux/slab.h \
     $(wildcard include/config/debug/slab.h) \
@@ -811,7 +817,68 @@ deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o := \
   include/linux/kasan.h \
   arch/x86/include/asm/kasan.h \
     $(wildcard include/config/kasan/shadow/offset.h) \
+  include/linux/hashtable.h \
+  include/linux/hash.h \
+    $(wildcard include/config/arch/has/fast/multiplier.h) \
+  include/linux/shmem_fs.h \
+    $(wildcard include/config/tmpfs.h) \
+  include/linux/swap.h \
+    $(wildcard include/config/frontswap.h) \
+    $(wildcard include/config/memcg/swap.h) \
+  include/linux/memcontrol.h \
+    $(wildcard include/config/inet.h) \
+  include/linux/cgroup.h \
+  include/uapi/linux/cgroupstats.h \
+  include/uapi/linux/taskstats.h \
+  include/linux/seq_file.h \
+  include/linux/kernfs.h \
+    $(wildcard include/config/kernfs.h) \
+  include/linux/page_counter.h \
+  include/linux/vmpressure.h \
+  include/linux/eventfd.h \
+    $(wildcard include/config/eventfd.h) \
+  include/linux/writeback.h \
+  include/linux/flex_proportions.h \
+  include/linux/backing-dev-defs.h \
+    $(wildcard include/config/debug/fs.h) \
+  include/linux/bio.h \
+  include/linux/mempool.h \
+  include/linux/ioprio.h \
+  include/linux/iocontext.h \
+  include/linux/node.h \
+    $(wildcard include/config/memory/hotplug/sparse.h) \
+  include/linux/device.h \
+    $(wildcard include/config/debug/devres.h) \
+    $(wildcard include/config/generic/msi/irq/domain.h) \
+    $(wildcard include/config/pinctrl.h) \
+    $(wildcard include/config/generic/msi/irq.h) \
+    $(wildcard include/config/dma/cma.h) \
+    $(wildcard include/config/of.h) \
+    $(wildcard include/config/devtmpfs.h) \
+    $(wildcard include/config/sysfs/deprecated.h) \
+  include/linux/kobject.h \
+    $(wildcard include/config/uevent/helper.h) \
+    $(wildcard include/config/debug/kobject/release.h) \
+  include/linux/sysfs.h \
+  include/linux/kobject_ns.h \
+  include/linux/klist.h \
+  include/linux/pinctrl/devinfo.h \
+  include/linux/pinctrl/consumer.h \
+  include/linux/pinctrl/pinctrl-state.h \
+  arch/x86/include/asm/device.h \
+    $(wildcard include/config/x86/dev/dma/ops.h) \
+    $(wildcard include/config/intel/iommu.h) \
+    $(wildcard include/config/amd/iommu.h) \
+  include/linux/pm_wakeup.h \
+  include/linux/mempolicy.h \
+    $(wildcard include/config/arch/enable/hugepage/migration.h) \
+  include/linux/pagemap.h \
+  include/linux/hugetlb_inline.h \
+  include/uapi/linux/mempolicy.h \
+  include/linux/xattr.h \
+  include/uapi/linux/xattr.h \
+  include/uapi/linux/libc-compat.h \
 
-/home/alex/sgx-driver/driver1/isgx_page_cache.o: $(deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o)
+/home/alex/sgx-driver/driver2/isgx_ioctl.o: $(deps_/home/alex/sgx-driver/driver2/isgx_ioctl.o)
 
-$(deps_/home/alex/sgx-driver/driver1/isgx_page_cache.o):
+$(deps_/home/alex/sgx-driver/driver2/isgx_ioctl.o):

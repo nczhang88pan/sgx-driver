@@ -119,20 +119,20 @@ struct isgx_enclave {
 	struct task_struct		*owner;
 	struct mm_struct		*mm;
 	struct file			*backing;
-	struct list_head		vma_list;
-	struct list_head		load_list;
+	struct list_head		vma_list;//
+	struct list_head		load_list;//
 	struct kref			refcount;
 	struct mutex			lock;
 	unsigned long			base;
 	unsigned long			size;
-	struct list_head		va_pages;
+	struct list_head		va_pages;//
 	struct rb_root			enclave_rb;
-	struct list_head		add_page_reqs;
+	struct list_head		add_page_reqs;//
 	struct work_struct		add_page_work;
 	unsigned int			secs_child_cnt;
 	struct isgx_enclave_page	secs_page;
 	struct isgx_tgid_ctx		*tgid_ctx;
-	struct list_head		enclave_list;
+	struct list_head		enclave_list;//
 };
 
 extern struct workqueue_struct *isgx_add_page_wq;
@@ -234,5 +234,7 @@ struct isgx_epc_page *isgx_alloc_epc_page(
 void isgx_free_epc_page(struct isgx_epc_page *entry,
 			struct isgx_enclave *encl,
 			unsigned int flags);
-
+//code add
+ long isgx_ioctl_enclave_create(struct file *filep, unsigned int cmd,
+				      unsigned long arg);
 #endif /* __ARCH_X86_ISGX_H__ */

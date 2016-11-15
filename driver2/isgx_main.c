@@ -112,6 +112,7 @@ static int __init isgx_init(void)
    	printk(KERN_ALERT "init sgx driver.\n");
    	//a module test
    	test();
+   	isgx_ioctl_enclave_create(NULL,0,0);
 	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL)
 		return -ENODEV;
 
@@ -149,7 +150,6 @@ static int __init isgx_init(void)
 		pr_err("isgx: misc_register() failed\n");
 		goto out_workqueue;
 	}
-
 // 	ret = register_pm_notifier(&isgx_pm_notifier);
 // 	if (ret) {
 // 		pr_err("isgx: register_pm_notifier() failed\n");

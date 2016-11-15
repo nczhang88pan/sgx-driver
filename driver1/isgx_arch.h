@@ -16,6 +16,7 @@
 #define _X86_ISGX_ARCH_H
 
 #include <asm/asm.h>
+#include <linux/kernel.h> 
 #include <linux/bitops.h>
 #include <linux/types.h>
 
@@ -200,9 +201,11 @@ enum {
 	})
 #endif
 
-static inline unsigned long __ecreate(struct page_info *pginfo, void *secs)
-{
-	return __encls(ECREATE, pginfo, secs, "d"(0));
+static inline unsigned long __ecreate(struct page_info *pginfo, void *secs)	//pageinfo包含了源SECS和secinfo的有效地址,(其中secs这个域没有被使用)
+{									//secs是目标secs的有效地址,它是EPC当中一个空的slot页(也就是这个地址之前被分配好了)
+	printk("driver1:__ecreate\n");
+	return 0;
+	//return __encls(ECREATE, pginfo, secs, "d"(0));	//pageinfo的有效地址,目的SECS页的地址
 }
 
 static inline int __eextend(void *secs, void *epc)
@@ -280,7 +283,6 @@ static inline int __ewb(struct page_info *pginfo, void *epc, void *va)
 	return __encls_ret(EWB, pginfo, epc, va);
 }
 
-// EXPORT_SYMBOL(__ecreate);
 // EXPORT_SYMBOL(__eextend);
 // EXPORT_SYMBOL(__eadd);
 // EXPORT_SYMBOL(__einit);

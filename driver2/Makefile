@@ -1,7 +1,8 @@
 ifneq ($(KERNELRELEASE),)
 	isgx-y := \
-		isgx_main.o \
-		isgx_page_cache.o
+		isgx_page_cache.o \
+		isgx_ioctl.o \
+		isgx_main.o
 	obj-m += isgx.o
 else
 KDIR := /lib/modules/$(shell uname -r)/build

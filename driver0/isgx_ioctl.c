@@ -181,7 +181,7 @@ static int construct_enclave_page(struct isgx_enclave *enclave,
 	return 0;
 }
 
-static int get_enclave(unsigned long addr, struct isgx_enclave **enclave)
+static int get_enclave(unsigned long addr, struct isgx_enclave **enclave)	//在当前的地址空间,根据地址找到enclave
 {
 	struct mm_struct *mm = current->mm;
 	struct vm_area_struct *vma;
@@ -437,13 +437,13 @@ static int validate_tcs(struct isgx_tcs *tcs)
 	return 0;
 }
 
-static int __enclave_add_page(struct isgx_enclave *enclave,
+static int __enclave_add_page(struct isgx_enclave *enclave,		//添加一个页到enclave当中去
 			      struct isgx_enclave_page *enclave_page,
 			      struct sgx_enclave_add_page *addp,
 			      struct isgx_secinfo *secinfo)
 {
 	u64 page_type = secinfo->flags & ISGX_SECINFO_PAGE_TYPE_MASK;
-	struct isgx_tcs *tcs;
+	struct isgx_tcs *tcs;						//Thread Control Structure
 	struct page *backing_page;
 	struct isgx_add_page_req *req = NULL;
 	int ret;
@@ -452,7 +452,7 @@ static int __enclave_add_page(struct isgx_enclave *enclave,
 	void *tmp_vaddr;
 	struct page *tmp_page;
 
-	tmp_page = alloc_page(GFP_HIGHUSER);
+	tmp_page = alloc_page(GFP_HIGHUSER);				//
 	if (!tmp_page)
 		return -ENOMEM;
 
@@ -563,7 +563,7 @@ static long isgx_ioctl_enclave_add_page(struct file *filep, unsigned int cmd,
 			   sizeof(secinfo)))
 		return -EFAULT;
 
-	ret = get_enclave(addp->addr, &enclave);
+	ret = get_enclave(addp->addr, &enclave);	//获取enclave
 	if (ret)
 		return ret;
 

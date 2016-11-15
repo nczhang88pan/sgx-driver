@@ -17,3 +17,4 @@ int test(void)
 	printk("driver1:this is test\n");
 }
 EXPORT_SYMBOL(test);
+

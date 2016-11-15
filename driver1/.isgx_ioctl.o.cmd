@@ -46,25 +46,17 @@ deps_/home/alex/sgx-driver/driver1/isgx_ioctl.o := \
   include/uapi/asm-generic/ioctl.h \
   /home/alex/sgx-driver/driver1/isgx_arch.h \
   arch/x86/include/asm/asm.h \
-  include/linux/bitops.h \
-  arch/x86/include/asm/bitops.h \
-    $(wildcard include/config/x86/cmov.h) \
-  arch/x86/include/asm/alternative.h \
-    $(wildcard include/config/smp.h) \
-    $(wildcard include/config/paravirt.h) \
-  include/linux/stringify.h \
-  arch/x86/include/asm/ptrace.h \
-    $(wildcard include/config/x86/debugctlmsr.h) \
-  arch/x86/include/asm/segment.h \
-    $(wildcard include/config/cc/stackprotector.h) \
+  include/linux/kernel.h \
+    $(wildcard include/config/preempt/voluntary.h) \
+    $(wildcard include/config/debug/atomic/sleep.h) \
+    $(wildcard include/config/mmu.h) \
+    $(wildcard include/config/prove/locking.h) \
+    $(wildcard include/config/panic/timeout.h) \
     $(wildcard include/config/tracing.h) \
-    $(wildcard include/config/x86/32/lazy/gs.h) \
-  include/uapi/linux/const.h \
-  arch/x86/include/asm/cache.h \
-    $(wildcard include/config/x86/l1/cache/shift.h) \
-    $(wildcard include/config/x86/internode/cache/shift.h) \
-    $(wildcard include/config/x86/vsmp.h) \
+    $(wildcard include/config/ftrace/mcount/record.h) \
+  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
   include/linux/linkage.h \
+  include/linux/stringify.h \
   include/linux/export.h \
     $(wildcard include/config/have/underscore/symbol/prefix.h) \
     $(wildcard include/config/modules.h) \
@@ -72,6 +64,22 @@ deps_/home/alex/sgx-driver/driver1/isgx_ioctl.o := \
     $(wildcard include/config/unused/symbols.h) \
   arch/x86/include/asm/linkage.h \
     $(wildcard include/config/x86/alignment/16.h) \
+  include/linux/bitops.h \
+  arch/x86/include/asm/bitops.h \
+    $(wildcard include/config/x86/cmov.h) \
+  arch/x86/include/asm/alternative.h \
+    $(wildcard include/config/smp.h) \
+    $(wildcard include/config/paravirt.h) \
+  arch/x86/include/asm/ptrace.h \
+    $(wildcard include/config/x86/debugctlmsr.h) \
+  arch/x86/include/asm/segment.h \
+    $(wildcard include/config/cc/stackprotector.h) \
+    $(wildcard include/config/x86/32/lazy/gs.h) \
+  include/uapi/linux/const.h \
+  arch/x86/include/asm/cache.h \
+    $(wildcard include/config/x86/l1/cache/shift.h) \
+    $(wildcard include/config/x86/internode/cache/shift.h) \
+    $(wildcard include/config/x86/vsmp.h) \
   arch/x86/include/asm/page_types.h \
     $(wildcard include/config/physical/start.h) \
     $(wildcard include/config/physical/align.h) \
@@ -137,22 +145,6 @@ deps_/home/alex/sgx-driver/driver1/isgx_ioctl.o := \
   arch/x86/include/uapi/asm/swab.h \
   include/linux/byteorder/generic.h \
   include/asm-generic/bitops/ext2-atomic-setbit.h \
-  include/linux/kref.h \
-  include/linux/bug.h \
-    $(wildcard include/config/generic/bug.h) \
-  arch/x86/include/asm/bug.h \
-    $(wildcard include/config/debug/bugverbose.h) \
-  include/asm-generic/bug.h \
-    $(wildcard include/config/bug.h) \
-    $(wildcard include/config/generic/bug/relative/pointers.h) \
-  include/linux/kernel.h \
-    $(wildcard include/config/preempt/voluntary.h) \
-    $(wildcard include/config/debug/atomic/sleep.h) \
-    $(wildcard include/config/mmu.h) \
-    $(wildcard include/config/prove/locking.h) \
-    $(wildcard include/config/panic/timeout.h) \
-    $(wildcard include/config/ftrace/mcount/record.h) \
-  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
   include/linux/log2.h \
     $(wildcard include/config/arch/has/ilog2/u32.h) \
     $(wildcard include/config/arch/has/ilog2/u64.h) \
@@ -171,6 +163,14 @@ deps_/home/alex/sgx-driver/driver1/isgx_ioctl.o := \
   include/uapi/linux/kernel.h \
   include/uapi/linux/sysinfo.h \
   include/linux/dynamic_debug.h \
+  include/linux/kref.h \
+  include/linux/bug.h \
+    $(wildcard include/config/generic/bug.h) \
+  arch/x86/include/asm/bug.h \
+    $(wildcard include/config/debug/bugverbose.h) \
+  include/asm-generic/bug.h \
+    $(wildcard include/config/bug.h) \
+    $(wildcard include/config/generic/bug/relative/pointers.h) \
   include/linux/atomic.h \
     $(wildcard include/config/generic/atomic64.h) \
   arch/x86/include/asm/atomic.h \

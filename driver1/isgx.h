@@ -230,9 +230,10 @@ int kisgxswapd(void *p);
 int isgx_page_cache_init(resource_size_t start, unsigned long size);
 void isgx_page_cache_teardown(void);
 struct isgx_epc_page *isgx_alloc_epc_page(
-	struct isgx_tgid_ctx *tgid_epc_cnt, unsigned int flags);
+struct isgx_tgid_ctx *tgid_epc_cnt, unsigned int flags);
 void isgx_free_epc_page(struct isgx_epc_page *entry,
 			struct isgx_enclave *encl,
 			unsigned int flags);
+//code add
 
 #endif /* __ARCH_X86_ISGX_H__ */
