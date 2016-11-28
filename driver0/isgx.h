@@ -101,7 +101,7 @@ struct isgx_enclave_page {
 #define ISGX_ENCLAVE_SECS_EVICTED	0x04
 #define ISGX_ENCLAVE_SUSPEND		0x08
 
-struct isgx_vma {
+struct isgx_vma {						//enclave的单个vma
 	struct vm_area_struct	*vma;
 	struct list_head	vma_list;
 };
@@ -117,9 +117,9 @@ struct isgx_tgid_ctx {
 struct isgx_enclave {
 	unsigned int			flags;
 	struct task_struct		*owner;
-	struct mm_struct		*mm;
-	struct file			*backing;
-	struct list_head		vma_list;
+	struct mm_struct		*mm;			//mm_struct
+	struct file			*backing;		//backing文件指针
+	struct list_head		vma_list;			
 	struct list_head		load_list;
 	struct kref			refcount;
 	struct mutex			lock;

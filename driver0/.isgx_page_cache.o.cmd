@@ -1,12 +1,13 @@
-cmd_/home/alex/sgx-driver/driver0/isgx_page_cache.o := gcc -Wp,-MD,/home/alex/sgx-driver/driver0/.isgx_page_cache.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/4.8/include -I./arch/x86/include -Iarch/x86/include/generated/uapi -Iarch/x86/include/generated  -Iinclude -I./arch/x86/include/uapi -Iarch/x86/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -D__KERNEL__ -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mtune=generic -mno-red-zone -mcmodel=kernel -funit-at-a-time -maccumulate-outgoing-args -DCONFIG_X86_X32_ABI -DCONFIG_AS_FXSAVEQ=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_CRC32=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -g -gdwarf-4 -pg -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO    -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(isgx_page_cache)"  -D"KBUILD_MODNAME=KBUILD_STR(isgx)" -c -o /home/alex/sgx-driver/driver0/.tmp_isgx_page_cache.o /home/alex/sgx-driver/driver0/isgx_page_cache.c
+cmd_/home/lbx/sgx-driver/driver0/isgx_page_cache.o := gcc -Wp,-MD,/home/lbx/sgx-driver/driver0/.isgx_page_cache.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/4.8/include  -I./arch/x86/include -Iarch/x86/include/generated/uapi -Iarch/x86/include/generated  -Iinclude -I./arch/x86/include/uapi -Iarch/x86/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -Iubuntu/include  -D__KERNEL__ -fno-pie -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-pie -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mtune=generic -mno-red-zone -mcmodel=kernel -funit-at-a-time -maccumulate-outgoing-args -DCONFIG_X86_X32_ABI -DCONFIG_AS_CFI=1 -DCONFIG_AS_CFI_SIGNAL_FRAME=1 -DCONFIG_AS_CFI_SECTIONS=1 -DCONFIG_AS_FXSAVEQ=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_CRC32=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -DCONFIG_AS_SHA1_NI=1 -DCONFIG_AS_SHA256_NI=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO  -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(isgx_page_cache)"  -D"KBUILD_MODNAME=KBUILD_STR(isgx)" -c -o /home/lbx/sgx-driver/driver0/.tmp_isgx_page_cache.o /home/lbx/sgx-driver/driver0/isgx_page_cache.c
 
-source_/home/alex/sgx-driver/driver0/isgx_page_cache.o := /home/alex/sgx-driver/driver0/isgx_page_cache.c
+source_/home/lbx/sgx-driver/driver0/isgx_page_cache.o := /home/lbx/sgx-driver/driver0/isgx_page_cache.c
 
-deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
-  /home/alex/sgx-driver/driver0/isgx.h \
+deps_/home/lbx/sgx-driver/driver0/isgx_page_cache.o := \
+  /home/lbx/sgx-driver/driver0/isgx.h \
     $(wildcard include/config/x86/64.h) \
-  /home/alex/sgx-driver/driver0/isgx_user.h \
+  /home/lbx/sgx-driver/driver0/isgx_user.h \
   include/linux/types.h \
+    $(wildcard include/config/have/uid16.h) \
     $(wildcard include/config/uid16.h) \
     $(wildcard include/config/lbdaf.h) \
     $(wildcard include/config/arch/dma/addr/t/64bit.h) \
@@ -44,7 +45,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
   arch/x86/include/uapi/asm/ioctl.h \
   include/asm-generic/ioctl.h \
   include/uapi/asm-generic/ioctl.h \
-  /home/alex/sgx-driver/driver0/isgx_arch.h \
+  /home/lbx/sgx-driver/driver0/isgx_arch.h \
   arch/x86/include/asm/asm.h \
   include/linux/bitops.h \
   arch/x86/include/asm/bitops.h \
@@ -106,27 +107,25 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
   include/asm-generic/qspinlock_types.h \
   include/asm-generic/qrwlock_types.h \
   include/asm-generic/ptrace.h \
-  arch/x86/include/asm/cpufeature.h \
-    $(wildcard include/config/x86/feature/names.h) \
-    $(wildcard include/config/x86/debug/static/cpu/has.h) \
-  arch/x86/include/asm/required-features.h \
-    $(wildcard include/config/x86/minimum/cpu/family.h) \
-    $(wildcard include/config/math/emulation.h) \
-    $(wildcard include/config/x86/cmpxchg64.h) \
-    $(wildcard include/config/x86/use/3dnow.h) \
-    $(wildcard include/config/x86/p6/nop.h) \
-    $(wildcard include/config/matom.h) \
-  arch/x86/include/asm/disabled-features.h \
-    $(wildcard include/config/x86/intel/mpx.h) \
   arch/x86/include/asm/rmwcc.h \
   arch/x86/include/asm/barrier.h \
     $(wildcard include/config/x86/ppro/fence.h) \
   arch/x86/include/asm/nops.h \
     $(wildcard include/config/mk7.h) \
+    $(wildcard include/config/x86/p6/nop.h) \
   include/asm-generic/bitops/find.h \
     $(wildcard include/config/generic/find/first/bit.h) \
   include/asm-generic/bitops/sched.h \
   arch/x86/include/asm/arch_hweight.h \
+  arch/x86/include/asm/cpufeatures.h \
+  arch/x86/include/asm/required-features.h \
+    $(wildcard include/config/x86/minimum/cpu/family.h) \
+    $(wildcard include/config/math/emulation.h) \
+    $(wildcard include/config/x86/cmpxchg64.h) \
+    $(wildcard include/config/x86/use/3dnow.h) \
+    $(wildcard include/config/matom.h) \
+  arch/x86/include/asm/disabled-features.h \
+    $(wildcard include/config/x86/intel/mpx.h) \
   include/asm-generic/bitops/const_hweight.h \
   include/asm-generic/bitops/le.h \
   arch/x86/include/uapi/asm/byteorder.h \
@@ -178,7 +177,6 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/m486.h) \
     $(wildcard include/config/xen.h) \
   arch/x86/include/asm/math_emu.h \
-  arch/x86/include/asm/sigcontext.h \
   arch/x86/include/uapi/asm/sigcontext.h \
   arch/x86/include/asm/current.h \
   arch/x86/include/asm/percpu.h \
@@ -206,6 +204,8 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/tdp/level/1.h) \
     $(wildcard include/config/tdp/level/2.h) \
     $(wildcard include/config/tdp/control.h) \
+    $(wildcard include/config/tdp/level1.h) \
+    $(wildcard include/config/tdp/level2.h) \
   arch/x86/include/uapi/asm/errno.h \
   include/uapi/asm-generic/errno.h \
   include/uapi/asm-generic/errno-base.h \
@@ -257,10 +257,25 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/lock/stat.h) \
   include/linux/rwlock_types.h \
   include/linux/osq_lock.h \
-  include/linux/spinlock.h \
-    $(wildcard include/config/preempt.h) \
-  include/linux/preempt.h \
+  include/linux/rbtree.h \
+  include/linux/rcupdate.h \
+    $(wildcard include/config/tiny/rcu.h) \
+    $(wildcard include/config/tree/rcu.h) \
+    $(wildcard include/config/preempt/rcu.h) \
+    $(wildcard include/config/rcu/trace.h) \
     $(wildcard include/config/preempt/count.h) \
+    $(wildcard include/config/rcu/stall/common.h) \
+    $(wildcard include/config/no/hz/full.h) \
+    $(wildcard include/config/rcu/nocb/cpu.h) \
+    $(wildcard include/config/tasks/rcu.h) \
+    $(wildcard include/config/debug/objects/rcu/head.h) \
+    $(wildcard include/config/prove/rcu.h) \
+    $(wildcard include/config/preempt.h) \
+    $(wildcard include/config/rcu/boost.h) \
+    $(wildcard include/config/rcu/nocb/cpu/all.h) \
+    $(wildcard include/config/no/hz/full/sysidle.h) \
+  include/linux/spinlock.h \
+  include/linux/preempt.h \
     $(wildcard include/config/preempt/notifiers.h) \
   arch/x86/include/asm/preempt.h \
   include/linux/thread_info.h \
@@ -268,6 +283,9 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/debug/stack/usage.h) \
   arch/x86/include/asm/thread_info.h \
     $(wildcard include/config/ia32/emulation.h) \
+  arch/x86/include/asm/cpufeature.h \
+    $(wildcard include/config/x86/feature/names.h) \
+    $(wildcard include/config/x86/debug/static/cpu/has.h) \
   include/linux/bottom_half.h \
   arch/x86/include/asm/spinlock.h \
   include/linux/jump_label.h \
@@ -308,21 +326,6 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/inline/write/unlock/irq.h) \
     $(wildcard include/config/inline/read/unlock/irqrestore.h) \
     $(wildcard include/config/inline/write/unlock/irqrestore.h) \
-  include/linux/rbtree.h \
-  include/linux/rcupdate.h \
-    $(wildcard include/config/tiny/rcu.h) \
-    $(wildcard include/config/tree/rcu.h) \
-    $(wildcard include/config/preempt/rcu.h) \
-    $(wildcard include/config/rcu/trace.h) \
-    $(wildcard include/config/rcu/stall/common.h) \
-    $(wildcard include/config/no/hz/full.h) \
-    $(wildcard include/config/rcu/nocb/cpu.h) \
-    $(wildcard include/config/tasks/rcu.h) \
-    $(wildcard include/config/debug/objects/rcu/head.h) \
-    $(wildcard include/config/prove/rcu.h) \
-    $(wildcard include/config/rcu/boost.h) \
-    $(wildcard include/config/rcu/nocb/cpu/all.h) \
-    $(wildcard include/config/no/hz/full/sysidle.h) \
   include/linux/seqlock.h \
   include/linux/completion.h \
   include/linux/wait.h \
@@ -364,13 +367,13 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/bsd/process/acct.h) \
     $(wildcard include/config/taskstats.h) \
     $(wildcard include/config/audit.h) \
-    $(wildcard include/config/cgroups.h) \
     $(wildcard include/config/inotify/user.h) \
     $(wildcard include/config/fanotify.h) \
     $(wildcard include/config/epoll.h) \
     $(wildcard include/config/posix/mqueue.h) \
     $(wildcard include/config/keys.h) \
     $(wildcard include/config/perf/events.h) \
+    $(wildcard include/config/bpf/syscall.h) \
     $(wildcard include/config/sched/info.h) \
     $(wildcard include/config/task/delay/acct.h) \
     $(wildcard include/config/schedstats.h) \
@@ -381,6 +384,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/rt/group/sched.h) \
     $(wildcard include/config/cgroup/sched.h) \
     $(wildcard include/config/blk/dev/io/trace.h) \
+    $(wildcard include/config/memcg.h) \
     $(wildcard include/config/memcg/kmem.h) \
     $(wildcard include/config/compat/brk.h) \
     $(wildcard include/config/virt/cpu/accounting/gen.h) \
@@ -390,13 +394,13 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/block.h) \
     $(wildcard include/config/task/xacct.h) \
     $(wildcard include/config/cpusets.h) \
+    $(wildcard include/config/cgroups.h) \
     $(wildcard include/config/futex.h) \
     $(wildcard include/config/numa/balancing.h) \
     $(wildcard include/config/arch/want/batched/unmap/tlb/flush.h) \
     $(wildcard include/config/fault/injection.h) \
     $(wildcard include/config/latencytop.h) \
     $(wildcard include/config/function/graph/tracer.h) \
-    $(wildcard include/config/memcg.h) \
     $(wildcard include/config/uprobes.h) \
     $(wildcard include/config/bcache.h) \
     $(wildcard include/config/arch/wants/dynamic/task/struct.h) \
@@ -428,6 +432,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/aio.h) \
     $(wildcard include/config/mmu/notifier.h) \
     $(wildcard include/config/compaction.h) \
+    $(wildcard include/config/hugetlb/page.h) \
   include/linux/auxvec.h \
   include/uapi/linux/auxvec.h \
   arch/x86/include/uapi/asm/auxvec.h \
@@ -502,6 +507,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/pci/mmconfig.h) \
     $(wildcard include/config/x86/intel/mid.h) \
   arch/x86/include/asm/acpi.h \
+    $(wildcard include/config/acpi/apei.h) \
     $(wildcard include/config/acpi.h) \
     $(wildcard include/config/acpi/numa.h) \
   include/acpi/pdc_intel.h \
@@ -538,7 +544,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
   include/linux/clocksource.h \
     $(wildcard include/config/arch/clocksource/data.h) \
     $(wildcard include/config/clocksource/watchdog.h) \
-    $(wildcard include/config/clksrc/of.h) \
+    $(wildcard include/config/clksrc/probe.h) \
   arch/x86/include/asm/clocksource.h \
   arch/x86/include/uapi/asm/vsyscall.h \
   include/asm-generic/fixmap.h \
@@ -602,7 +608,6 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/holes/in/zone.h) \
     $(wildcard include/config/arch/has/holes/memorymodel.h) \
   include/linux/pageblock-flags.h \
-    $(wildcard include/config/hugetlb/page.h) \
     $(wildcard include/config/hugetlb/page/size/variable.h) \
   include/linux/memory_hotplug.h \
     $(wildcard include/config/have/arch/nodedata/extension.h) \
@@ -616,6 +621,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/seccomp.h) \
     $(wildcard include/config/have/arch/seccomp/filter.h) \
     $(wildcard include/config/seccomp/filter.h) \
+    $(wildcard include/config/checkpoint/restore.h) \
   include/uapi/linux/seccomp.h \
   arch/x86/include/asm/seccomp.h \
   arch/x86/include/asm/unistd.h \
@@ -637,6 +643,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
   include/uapi/asm-generic/resource.h \
   include/linux/hrtimer.h \
     $(wildcard include/config/high/res/timers.h) \
+    $(wildcard include/config/time/low/res.h) \
     $(wildcard include/config/timerfd.h) \
   include/linux/timerqueue.h \
   include/linux/task_io_accounting.h \
@@ -656,6 +663,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
   include/linux/idr.h \
   include/linux/percpu-refcount.h \
   include/linux/percpu-rwsem.h \
+  include/linux/rcu_sync.h \
   include/linux/cgroup_subsys.h \
     $(wildcard include/config/cgroup/cpuacct.h) \
     $(wildcard include/config/blk/cgroup.h) \
@@ -679,6 +687,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/fsnotify.h) \
     $(wildcard include/config/file/locking.h) \
     $(wildcard include/config/quota.h) \
+    $(wildcard include/config/blk/dev/loop.h) \
     $(wildcard include/config/fs/dax.h) \
     $(wildcard include/config/migration.h) \
   include/linux/kdev_t.h \
@@ -731,12 +740,12 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
     $(wildcard include/config/stacktrace.h) \
     $(wildcard include/config/user/stacktrace/support.h) \
   arch/x86/include/asm/pgtable.h \
+    $(wildcard include/config/debug/wx.h) \
     $(wildcard include/config/have/arch/soft/dirty.h) \
   arch/x86/include/asm/pgtable_64.h \
   include/asm-generic/pgtable.h \
     $(wildcard include/config/have/arch/huge/vmap.h) \
   include/linux/page-flags.h \
-    $(wildcard include/config/pageflags/extended.h) \
     $(wildcard include/config/arch/uses/pg/uncached.h) \
     $(wildcard include/config/memory/failure.h) \
     $(wildcard include/config/swap.h) \
@@ -809,9 +818,7 @@ deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o := \
   include/linux/kmemleak.h \
     $(wildcard include/config/debug/kmemleak.h) \
   include/linux/kasan.h \
-  arch/x86/include/asm/kasan.h \
-    $(wildcard include/config/kasan/shadow/offset.h) \
 
-/home/alex/sgx-driver/driver0/isgx_page_cache.o: $(deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o)
+/home/lbx/sgx-driver/driver0/isgx_page_cache.o: $(deps_/home/lbx/sgx-driver/driver0/isgx_page_cache.o)
 
-$(deps_/home/alex/sgx-driver/driver0/isgx_page_cache.o):
+$(deps_/home/lbx/sgx-driver/driver0/isgx_page_cache.o):

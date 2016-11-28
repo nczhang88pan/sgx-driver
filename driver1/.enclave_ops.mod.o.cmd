@@ -1,15 +1,15 @@
-cmd_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := gcc -Wp,-MD,/home/alex/sgx-driver/driver1/.enclave_ops.mod.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/4.8/include -I./arch/x86/include -Iarch/x86/include/generated/uapi -Iarch/x86/include/generated  -Iinclude -I./arch/x86/include/uapi -Iarch/x86/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -D__KERNEL__ -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mtune=generic -mno-red-zone -mcmodel=kernel -funit-at-a-time -maccumulate-outgoing-args -DCONFIG_X86_X32_ABI -DCONFIG_AS_FXSAVEQ=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_CRC32=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -g -gdwarf-4 -pg -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO    -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(enclave_ops.mod)"  -D"KBUILD_MODNAME=KBUILD_STR(enclave_ops)" -DMODULE  -c -o /home/alex/sgx-driver/driver1/enclave_ops.mod.o /home/alex/sgx-driver/driver1/enclave_ops.mod.c
+cmd_/home/lbx/sgx-driver/driver1/enclave_ops.mod.o := gcc -Wp,-MD,/home/lbx/sgx-driver/driver1/.enclave_ops.mod.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/4.8/include  -I./arch/x86/include -Iarch/x86/include/generated/uapi -Iarch/x86/include/generated  -Iinclude -I./arch/x86/include/uapi -Iarch/x86/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -Iubuntu/include  -D__KERNEL__ -fno-pie -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-pie -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mtune=generic -mno-red-zone -mcmodel=kernel -funit-at-a-time -maccumulate-outgoing-args -DCONFIG_X86_X32_ABI -DCONFIG_AS_CFI=1 -DCONFIG_AS_CFI_SIGNAL_FRAME=1 -DCONFIG_AS_CFI_SECTIONS=1 -DCONFIG_AS_FXSAVEQ=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_CRC32=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -DCONFIG_AS_SHA1_NI=1 -DCONFIG_AS_SHA256_NI=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(enclave_ops.mod)"  -D"KBUILD_MODNAME=KBUILD_STR(enclave_ops)" -DMODULE  -c -o /home/lbx/sgx-driver/driver1/enclave_ops.mod.o /home/lbx/sgx-driver/driver1/enclave_ops.mod.c
 
-source_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := /home/alex/sgx-driver/driver1/enclave_ops.mod.c
+source_/home/lbx/sgx-driver/driver1/enclave_ops.mod.o := /home/lbx/sgx-driver/driver1/enclave_ops.mod.c
 
-deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
+deps_/home/lbx/sgx-driver/driver1/enclave_ops.mod.o := \
     $(wildcard include/config/module/unload.h) \
   include/linux/module.h \
     $(wildcard include/config/modules.h) \
     $(wildcard include/config/sysfs.h) \
-    $(wildcard include/config/unused/symbols.h) \
     $(wildcard include/config/module/sig.h) \
     $(wildcard include/config/modules/tree/lookup.h) \
+    $(wildcard include/config/unused/symbols.h) \
     $(wildcard include/config/generic/bug.h) \
     $(wildcard include/config/kallsyms.h) \
     $(wildcard include/config/smp.h) \
@@ -23,6 +23,7 @@ deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
   include/linux/list.h \
     $(wildcard include/config/debug/list.h) \
   include/linux/types.h \
+    $(wildcard include/config/have/uid16.h) \
     $(wildcard include/config/uid16.h) \
     $(wildcard include/config/lbdaf.h) \
     $(wildcard include/config/arch/dma/addr/t/64bit.h) \
@@ -123,27 +124,25 @@ deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
   include/asm-generic/qspinlock_types.h \
   include/asm-generic/qrwlock_types.h \
   include/asm-generic/ptrace.h \
-  arch/x86/include/asm/cpufeature.h \
-    $(wildcard include/config/x86/feature/names.h) \
-    $(wildcard include/config/x86/debug/static/cpu/has.h) \
-  arch/x86/include/asm/required-features.h \
-    $(wildcard include/config/x86/minimum/cpu/family.h) \
-    $(wildcard include/config/math/emulation.h) \
-    $(wildcard include/config/x86/cmpxchg64.h) \
-    $(wildcard include/config/x86/use/3dnow.h) \
-    $(wildcard include/config/x86/p6/nop.h) \
-    $(wildcard include/config/matom.h) \
-  arch/x86/include/asm/disabled-features.h \
-    $(wildcard include/config/x86/intel/mpx.h) \
   arch/x86/include/asm/rmwcc.h \
   arch/x86/include/asm/barrier.h \
     $(wildcard include/config/x86/ppro/fence.h) \
   arch/x86/include/asm/nops.h \
     $(wildcard include/config/mk7.h) \
+    $(wildcard include/config/x86/p6/nop.h) \
   include/asm-generic/bitops/find.h \
     $(wildcard include/config/generic/find/first/bit.h) \
   include/asm-generic/bitops/sched.h \
   arch/x86/include/asm/arch_hweight.h \
+  arch/x86/include/asm/cpufeatures.h \
+  arch/x86/include/asm/required-features.h \
+    $(wildcard include/config/x86/minimum/cpu/family.h) \
+    $(wildcard include/config/math/emulation.h) \
+    $(wildcard include/config/x86/cmpxchg64.h) \
+    $(wildcard include/config/x86/use/3dnow.h) \
+    $(wildcard include/config/matom.h) \
+  arch/x86/include/asm/disabled-features.h \
+    $(wildcard include/config/x86/intel/mpx.h) \
   include/asm-generic/bitops/const_hweight.h \
   include/asm-generic/bitops/le.h \
   arch/x86/include/uapi/asm/byteorder.h \
@@ -218,11 +217,13 @@ deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
     $(wildcard include/config/discontigmem.h) \
     $(wildcard include/config/sparsemem/vmemmap.h) \
   include/asm-generic/getorder.h \
+  arch/x86/include/asm/cpufeature.h \
+    $(wildcard include/config/x86/feature/names.h) \
+    $(wildcard include/config/x86/debug/static/cpu/has.h) \
   arch/x86/include/asm/processor.h \
     $(wildcard include/config/m486.h) \
     $(wildcard include/config/xen.h) \
   arch/x86/include/asm/math_emu.h \
-  arch/x86/include/asm/sigcontext.h \
   arch/x86/include/uapi/asm/sigcontext.h \
   arch/x86/include/asm/current.h \
   arch/x86/include/asm/msr.h \
@@ -231,6 +232,8 @@ deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
     $(wildcard include/config/tdp/level/1.h) \
     $(wildcard include/config/tdp/level/2.h) \
     $(wildcard include/config/tdp/control.h) \
+    $(wildcard include/config/tdp/level1.h) \
+    $(wildcard include/config/tdp/level2.h) \
   arch/x86/include/uapi/asm/errno.h \
   include/uapi/asm-generic/errno.h \
   include/uapi/asm-generic/errno-base.h \
@@ -328,6 +331,7 @@ deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
     $(wildcard include/config/highmem.h) \
     $(wildcard include/config/zone/dma.h) \
     $(wildcard include/config/zone/dma32.h) \
+    $(wildcard include/config/zone/device.h) \
     $(wildcard include/config/numa.h) \
     $(wildcard include/config/deferred/struct/page/init.h) \
     $(wildcard include/config/pm/sleep.h) \
@@ -338,7 +342,6 @@ deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
     $(wildcard include/config/force/max/zoneorder.h) \
     $(wildcard include/config/memory/isolation.h) \
     $(wildcard include/config/memcg.h) \
-    $(wildcard include/config/zone/device.h) \
     $(wildcard include/config/memory/hotplug.h) \
     $(wildcard include/config/compaction.h) \
     $(wildcard include/config/flat/node/mem/map.h) \
@@ -470,6 +473,7 @@ deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
     $(wildcard include/config/pci/mmconfig.h) \
     $(wildcard include/config/x86/intel/mid.h) \
   arch/x86/include/asm/acpi.h \
+    $(wildcard include/config/acpi/apei.h) \
     $(wildcard include/config/acpi.h) \
     $(wildcard include/config/acpi/numa.h) \
   include/acpi/pdc_intel.h \
@@ -507,7 +511,7 @@ deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
   include/linux/clocksource.h \
     $(wildcard include/config/arch/clocksource/data.h) \
     $(wildcard include/config/clocksource/watchdog.h) \
-    $(wildcard include/config/clksrc/of.h) \
+    $(wildcard include/config/clksrc/probe.h) \
   arch/x86/include/asm/clocksource.h \
   arch/x86/include/uapi/asm/vsyscall.h \
   include/asm-generic/fixmap.h \
@@ -594,6 +598,6 @@ deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o := \
   include/linux/vermagic.h \
   include/generated/utsrelease.h \
 
-/home/alex/sgx-driver/driver1/enclave_ops.mod.o: $(deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o)
+/home/lbx/sgx-driver/driver1/enclave_ops.mod.o: $(deps_/home/lbx/sgx-driver/driver1/enclave_ops.mod.o)
 
-$(deps_/home/alex/sgx-driver/driver1/enclave_ops.mod.o):
+$(deps_/home/lbx/sgx-driver/driver1/enclave_ops.mod.o):

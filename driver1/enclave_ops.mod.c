@@ -17,11 +17,16 @@ __attribute__((section(".gnu.linkonce.this_module"))) = {
 static const struct modversion_info ____versions[]
 __used
 __attribute__((section("__versions"))) = {
-	{ 0xcb9fb324, __VMLINUX_SYMBOL_STR(module_layout) },
-	{ 0x5e7fcb35, __VMLINUX_SYMBOL_STR(kthread_create_on_node) },
+	{ 0xc6c01fa, __VMLINUX_SYMBOL_STR(module_layout) },
+	{ 0x92a94ad2, __VMLINUX_SYMBOL_STR(kmalloc_caches) },
+	{ 0x6bf1c17f, __VMLINUX_SYMBOL_STR(pv_lock_ops) },
 	{ 0x27e1a049, __VMLINUX_SYMBOL_STR(printk) },
-	{ 0x5120cea4, __VMLINUX_SYMBOL_STR(wake_up_process) },
 	{ 0xbdfb6dbb, __VMLINUX_SYMBOL_STR(__fentry__) },
+	{ 0x81fcd7c8, __VMLINUX_SYMBOL_STR(kmem_cache_alloc_trace) },
+	{ 0xe259ae9e, __VMLINUX_SYMBOL_STR(_raw_spin_lock) },
+	{ 0x37a0cba, __VMLINUX_SYMBOL_STR(kfree) },
+	{ 0xedc03953, __VMLINUX_SYMBOL_STR(iounmap) },
+	{ 0x68c7263, __VMLINUX_SYMBOL_STR(ioremap_cache) },
 };
 
 static const char __module_depends[]
@@ -30,4 +35,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "4E5A0C0E7BE3DB471DDD031");
+MODULE_INFO(srcversion, "20B8C934FE2DAF3814F1BCC");

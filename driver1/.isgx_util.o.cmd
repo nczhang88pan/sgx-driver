@@ -1,12 +1,12 @@
-cmd_/home/lbx/sgx-driver/driver0/isgx_util.o := gcc -Wp,-MD,/home/lbx/sgx-driver/driver0/.isgx_util.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/4.8/include  -I./arch/x86/include -Iarch/x86/include/generated/uapi -Iarch/x86/include/generated  -Iinclude -I./arch/x86/include/uapi -Iarch/x86/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -Iubuntu/include  -D__KERNEL__ -fno-pie -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-pie -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mtune=generic -mno-red-zone -mcmodel=kernel -funit-at-a-time -maccumulate-outgoing-args -DCONFIG_X86_X32_ABI -DCONFIG_AS_CFI=1 -DCONFIG_AS_CFI_SIGNAL_FRAME=1 -DCONFIG_AS_CFI_SECTIONS=1 -DCONFIG_AS_FXSAVEQ=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_CRC32=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -DCONFIG_AS_SHA1_NI=1 -DCONFIG_AS_SHA256_NI=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO  -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(isgx_util)"  -D"KBUILD_MODNAME=KBUILD_STR(isgx)" -c -o /home/lbx/sgx-driver/driver0/.tmp_isgx_util.o /home/lbx/sgx-driver/driver0/isgx_util.c
+cmd_/home/lbx/sgx-driver/driver1/isgx_util.o := gcc -Wp,-MD,/home/lbx/sgx-driver/driver1/.isgx_util.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/4.8/include  -I./arch/x86/include -Iarch/x86/include/generated/uapi -Iarch/x86/include/generated  -Iinclude -I./arch/x86/include/uapi -Iarch/x86/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -Iubuntu/include  -D__KERNEL__ -fno-pie -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-pie -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mtune=generic -mno-red-zone -mcmodel=kernel -funit-at-a-time -maccumulate-outgoing-args -DCONFIG_X86_X32_ABI -DCONFIG_AS_CFI=1 -DCONFIG_AS_CFI_SIGNAL_FRAME=1 -DCONFIG_AS_CFI_SECTIONS=1 -DCONFIG_AS_FXSAVEQ=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_CRC32=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -DCONFIG_AS_SHA1_NI=1 -DCONFIG_AS_SHA256_NI=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO  -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(isgx_util)"  -D"KBUILD_MODNAME=KBUILD_STR(enclave_ops)" -c -o /home/lbx/sgx-driver/driver1/.tmp_isgx_util.o /home/lbx/sgx-driver/driver1/isgx_util.c
 
-source_/home/lbx/sgx-driver/driver0/isgx_util.o := /home/lbx/sgx-driver/driver0/isgx_util.c
+source_/home/lbx/sgx-driver/driver1/isgx_util.o := /home/lbx/sgx-driver/driver1/isgx_util.c
 
-deps_/home/lbx/sgx-driver/driver0/isgx_util.o := \
+deps_/home/lbx/sgx-driver/driver1/isgx_util.o := \
     $(wildcard include/config/x86/32.h) \
-  /home/lbx/sgx-driver/driver0/isgx.h \
+  /home/lbx/sgx-driver/driver1/isgx.h \
     $(wildcard include/config/x86/64.h) \
-  /home/lbx/sgx-driver/driver0/isgx_user.h \
+  /home/lbx/sgx-driver/driver1/isgx_user.h \
   include/linux/types.h \
     $(wildcard include/config/have/uid16.h) \
     $(wildcard include/config/uid16.h) \
@@ -45,27 +45,19 @@ deps_/home/lbx/sgx-driver/driver0/isgx_util.o := \
   arch/x86/include/uapi/asm/ioctl.h \
   include/asm-generic/ioctl.h \
   include/uapi/asm-generic/ioctl.h \
-  /home/lbx/sgx-driver/driver0/isgx_arch.h \
+  /home/lbx/sgx-driver/driver1/isgx_arch.h \
   arch/x86/include/asm/asm.h \
-  include/linux/bitops.h \
-  arch/x86/include/asm/bitops.h \
-    $(wildcard include/config/x86/cmov.h) \
-  arch/x86/include/asm/alternative.h \
-    $(wildcard include/config/smp.h) \
-    $(wildcard include/config/paravirt.h) \
-  include/linux/stringify.h \
-  arch/x86/include/asm/ptrace.h \
-    $(wildcard include/config/x86/debugctlmsr.h) \
-  arch/x86/include/asm/segment.h \
-    $(wildcard include/config/cc/stackprotector.h) \
+  include/linux/kernel.h \
+    $(wildcard include/config/preempt/voluntary.h) \
+    $(wildcard include/config/debug/atomic/sleep.h) \
+    $(wildcard include/config/mmu.h) \
+    $(wildcard include/config/prove/locking.h) \
+    $(wildcard include/config/panic/timeout.h) \
     $(wildcard include/config/tracing.h) \
-    $(wildcard include/config/x86/32/lazy/gs.h) \
-  include/uapi/linux/const.h \
-  arch/x86/include/asm/cache.h \
-    $(wildcard include/config/x86/l1/cache/shift.h) \
-    $(wildcard include/config/x86/internode/cache/shift.h) \
-    $(wildcard include/config/x86/vsmp.h) \
+    $(wildcard include/config/ftrace/mcount/record.h) \
+  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
   include/linux/linkage.h \
+  include/linux/stringify.h \
   include/linux/export.h \
     $(wildcard include/config/have/underscore/symbol/prefix.h) \
     $(wildcard include/config/modules.h) \
@@ -73,6 +65,22 @@ deps_/home/lbx/sgx-driver/driver0/isgx_util.o := \
     $(wildcard include/config/unused/symbols.h) \
   arch/x86/include/asm/linkage.h \
     $(wildcard include/config/x86/alignment/16.h) \
+  include/linux/bitops.h \
+  arch/x86/include/asm/bitops.h \
+    $(wildcard include/config/x86/cmov.h) \
+  arch/x86/include/asm/alternative.h \
+    $(wildcard include/config/smp.h) \
+    $(wildcard include/config/paravirt.h) \
+  arch/x86/include/asm/ptrace.h \
+    $(wildcard include/config/x86/debugctlmsr.h) \
+  arch/x86/include/asm/segment.h \
+    $(wildcard include/config/cc/stackprotector.h) \
+    $(wildcard include/config/x86/32/lazy/gs.h) \
+  include/uapi/linux/const.h \
+  arch/x86/include/asm/cache.h \
+    $(wildcard include/config/x86/l1/cache/shift.h) \
+    $(wildcard include/config/x86/internode/cache/shift.h) \
+    $(wildcard include/config/x86/vsmp.h) \
   arch/x86/include/asm/page_types.h \
     $(wildcard include/config/physical/start.h) \
     $(wildcard include/config/physical/align.h) \
@@ -136,22 +144,6 @@ deps_/home/lbx/sgx-driver/driver0/isgx_util.o := \
   arch/x86/include/uapi/asm/swab.h \
   include/linux/byteorder/generic.h \
   include/asm-generic/bitops/ext2-atomic-setbit.h \
-  include/linux/kref.h \
-  include/linux/bug.h \
-    $(wildcard include/config/generic/bug.h) \
-  arch/x86/include/asm/bug.h \
-    $(wildcard include/config/debug/bugverbose.h) \
-  include/asm-generic/bug.h \
-    $(wildcard include/config/bug.h) \
-    $(wildcard include/config/generic/bug/relative/pointers.h) \
-  include/linux/kernel.h \
-    $(wildcard include/config/preempt/voluntary.h) \
-    $(wildcard include/config/debug/atomic/sleep.h) \
-    $(wildcard include/config/mmu.h) \
-    $(wildcard include/config/prove/locking.h) \
-    $(wildcard include/config/panic/timeout.h) \
-    $(wildcard include/config/ftrace/mcount/record.h) \
-  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
   include/linux/log2.h \
     $(wildcard include/config/arch/has/ilog2/u32.h) \
     $(wildcard include/config/arch/has/ilog2/u64.h) \
@@ -170,6 +162,14 @@ deps_/home/lbx/sgx-driver/driver0/isgx_util.o := \
   include/uapi/linux/kernel.h \
   include/uapi/linux/sysinfo.h \
   include/linux/dynamic_debug.h \
+  include/linux/kref.h \
+  include/linux/bug.h \
+    $(wildcard include/config/generic/bug.h) \
+  arch/x86/include/asm/bug.h \
+    $(wildcard include/config/debug/bugverbose.h) \
+  include/asm-generic/bug.h \
+    $(wildcard include/config/bug.h) \
+    $(wildcard include/config/generic/bug/relative/pointers.h) \
   include/linux/atomic.h \
     $(wildcard include/config/generic/atomic64.h) \
   arch/x86/include/asm/atomic.h \
@@ -880,6 +880,6 @@ deps_/home/lbx/sgx-driver/driver0/isgx_util.o := \
   include/uapi/linux/xattr.h \
   include/uapi/linux/libc-compat.h \
 
-/home/lbx/sgx-driver/driver0/isgx_util.o: $(deps_/home/lbx/sgx-driver/driver0/isgx_util.o)
+/home/lbx/sgx-driver/driver1/isgx_util.o: $(deps_/home/lbx/sgx-driver/driver1/isgx_util.o)
 
-$(deps_/home/lbx/sgx-driver/driver0/isgx_util.o):
+$(deps_/home/lbx/sgx-driver/driver1/isgx_util.o):

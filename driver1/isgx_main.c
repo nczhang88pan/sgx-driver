@@ -69,22 +69,22 @@ u32 isgx_ssaframesize_tbl[64];
 // }
 // #endif
 
-static const struct file_operations isgx_fops = {
-	.owner		= THIS_MODULE,
-	.unlocked_ioctl	= isgx_ioctl,
+// static const struct file_operations isgx_fops = {
+// 	.owner		= THIS_MODULE,
+// 	.unlocked_ioctl	= isgx_ioctl,
 // #ifdef CONFIG_COMPAT
 // 	.compat_ioctl	= isgx_compat_ioctl,
 // #endif
 // 	.mmap		= isgx_mmap,
 // 	.get_unmapped_area = isgx_get_unmapped_area,
-};
+// };
 
-static struct miscdevice isgx_dev = {
-	.name	= "isgx",
-	.fops	= &isgx_fops,
-	.mode   = S_IRUGO | S_IWUGO,
-};
-//电源事件 忽略
+// static struct miscdevice isgx_dev = {
+// 	.name	= "isgx",
+// 	.fops	= &isgx_fops,
+// 	.mode   = S_IRUGO | S_IWUGO,
+// };
+
 // static int isgx_power_event(struct notifier_block *this, unsigned long event,
 // 			    void *ptr);
 
@@ -92,7 +92,7 @@ static struct miscdevice isgx_dev = {
 // static struct notifier_block isgx_pm_notifier = {
 // 	.notifier_call = isgx_power_event,
 // };
-//映射一段VM AREA，设置它的操作
+
 // static int isgx_mmap(struct file *file, struct vm_area_struct *vma)
 // {
 // 	vma->vm_ops = &isgx_vm_ops;
@@ -104,7 +104,7 @@ static struct miscdevice isgx_dev = {
 
 // 	return 0;
 // }
-//没有使用
+
 // static void __isgx_enable_in_cr4(void *v)
 // {
 // #if 0
@@ -117,7 +117,7 @@ static struct miscdevice isgx_dev = {
 // 	__isgx_enable_in_cr4(NULL);
 // 	smp_call_function(__isgx_enable_in_cr4, NULL, 1);
 // }
-//没有使用
+
 // static void __isgx_disable_in_cr4(void *v)
 // {
 // #if 0
@@ -125,147 +125,53 @@ static struct miscdevice isgx_dev = {
 // #endif
 // }
 
-/* Should be in arch/x86/include/asm/cpufeature.h when upstreamed. */
-#ifndef X86_FEATURE_SGX
-#define X86_FEATURE_SGX (9 * 32 + 2)
-#endif
-//检测CPU是否支持SGX，获取SGX的物理地址
-static int isgx_init_platform(void)	
+// /* Should be in arch/x86/include/asm/cpufeature.h when upstreamed. */
+// #ifndef X86_FEATURE_SGX
+// #define X86_FEATURE_SGX (9 * 32 + 2)
+// #endif
+
+
+
+static int isgx_init_iso(resource_size_t epc_base, unsigned long epc_size)
 {
-	unsigned int eax, ebx, ecx, edx;
-	int i;
-
-	cpuid(0, &eax, &ebx, &ecx, &edx);
-	if (eax < SGX_CPUID) {
-		pr_err("isgx: CPUID is missing the SGX leaf instruction\n");
-		return -ENODEV;
-	}
-
-	if (!boot_cpu_has(X86_FEATURE_SGX)) {
-		pr_err("isgx: CPU is missing the SGX feature\n");
-		return -ENODEV;
-	}
-
-	cpuid_count(SGX_CPUID, 0x0, &eax, &ebx, &ecx, &edx);
-	if (!(eax & 1)) {
-		pr_err("isgx: CPU does not support the SGX 1.0 instruction set\n");
-		return -ENODEV;
-	}
-
-	if (boot_cpu_has(X86_FEATURE_OSXSAVE)) {
-		cpuid_count(SGX_CPUID, 0x1, &eax, &ebx, &ecx, &edx);
-		isgx_xfrm_mask = (((u64) edx) << 32) + (u64) ecx;
-		for (i = 2; i < 64; i++) {
-			cpuid_count(0x0D, i, &eax, &ebx, &ecx, &edx);
-			if ((1 << i) & isgx_xfrm_mask)
-				isgx_ssaframesize_tbl[i] =
-					(168 + eax + ebx + PAGE_SIZE - 1) /
-					PAGE_SIZE;
-		}
-	}
-
-	cpuid_count(SGX_CPUID, 0x0, &eax, &ebx, &ecx, &edx);
-	if (edx & 0xFFFF) {
-#ifdef CONFIG_X86_64
-		isgx_enclave_size_max_64 = 1ULL << ((edx >> 8) & 0xFF);
-#endif
-		isgx_enclave_size_max_32 = 1ULL << (edx & 0xFF);
-	}
-
-	cpuid_count(SGX_CPUID, 0x2, &eax, &ebx, &ecx, &edx);
-
-	/* The should be at least one EPC area or something is wrong. */
-	BUG_ON((eax & 0xf) != 0x1);
-	isgx_epc_base = (((u64) (ebx & 0xfffff)) << 32) +
-		(u64) (eax & 0xfffff000);
-	isgx_epc_size = (((u64) (edx & 0xfffff)) << 32) +
-		(u64) (ecx & 0xfffff000);
-
-	if (!isgx_epc_base)
-		return -ENODEV;
-
-	return 0;
-}
-extern int isgx_init_iso(resource_size_t start, unsigned long size);
-static int __init isgx_init(void)
-{
-	unsigned int wq_flags;
 	int ret;
-
-	pr_info("isgx: " DRV_DESCRIPTION " v" DRV_VERSION "\n");
-
-	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL)
-		return -ENODEV;
-
-	ret = isgx_init_platform();
-	if (ret)
-		return ret;
-
-	pr_info("isgx: EPC memory range 0x%Lx-0x%Lx\n", isgx_epc_base,
-		isgx_epc_base + isgx_epc_size);
-
-// #ifdef CONFIG_X86_64
-// 	isgx_epc_mem = ioremap_cache(isgx_epc_base, isgx_epc_size);		//将SGX的这段物理内存映射到内核空间，方便管理；应该映射到隔离区
-// 	if (!isgx_epc_mem)
-// 		return -ENOMEM;
-// #endif
-
-// 	ret = isgx_page_cache_init(isgx_epc_base, isgx_epc_size);			//对EPC进行初始化;实现free list
-// 	if (ret)
-// 		goto out_iounmap;
-	isgx_init_iso(isgx_epc_base, isgx_epc_size);
-	wq_flags = WQ_UNBOUND | WQ_FREEZABLE;
-#ifdef WQ_NON_REENETRANT
-	wq_flags |= WQ_NON_REENTRANT;
+	isgx_epc_base = epc_base;
+	isgx_epc_size = epc_size;
+	
+#ifdef CONFIG_X86_64
+	isgx_epc_mem = ioremap_cache(isgx_epc_base, isgx_epc_size);
+	if (!isgx_epc_mem)
+		return -ENOMEM;
 #endif
-	isgx_add_page_wq = alloc_workqueue("isgx-add-page-wq", wq_flags, 1);	//申请一个add page专用的workqueue
-	if (!isgx_add_page_wq) {
-		pr_err("isgx: alloc_workqueue() failed\n");
-		ret = -ENOMEM;
+
+	ret = isgx_page_cache_init_iso(isgx_epc_base, isgx_epc_size);
+	if (ret)
 		goto out_iounmap;
-	}
-	ret = misc_register(&isgx_dev);						//注册SGX设备
-	if (ret) {
-		pr_err("isgx: misc_register() failed\n");
-		goto out_workqueue;
-	}
 
-	// ret = register_pm_notifier(&isgx_pm_notifier);				//电源管理
-	// if (ret) {
-	// 	pr_err("isgx: register_pm_notifier() failed\n");
-	// 	goto out_misc;
-	// }
-
-	//isgx_enable();
-
+	// isgx_enable();
+	pr_info("%s: done\n", __func__);
 	return 0;
-// out_misc:
-// 	misc_deregister(&isgx_dev);
-out_workqueue:
-	destroy_workqueue(isgx_add_page_wq);
+
 out_iounmap:
-// #ifdef CONFIG_X86_64
-// 	iounmap(isgx_epc_mem);
-// #endif
+#ifdef CONFIG_X86_64
+	iounmap(isgx_epc_mem);
+#endif
 	return ret;
 }
-extern void isgx_exit_iso(void);
-static void __exit isgx_exit(void)
+EXPORT_SYMBOL(isgx_init_iso);
+
+static void isgx_exit_iso(void)
 {
-	misc_deregister(&isgx_dev);
-	destroy_workqueue(isgx_add_page_wq);
-	isgx_exit_iso();
-// #ifdef CONFIG_X86_64
-// 	iounmap(isgx_epc_mem);
-// #endif
-	//unregister_pm_notifier(&isgx_pm_notifier);
-	isgx_page_cache_teardown();
+#ifdef CONFIG_X86_64
+	iounmap(isgx_epc_mem);
+#endif
+	 isgx_page_cache_teardown_iso();
 
 	// __isgx_disable_in_cr4(NULL);
 	// smp_call_function(__isgx_disable_in_cr4, NULL, 1);
-	pr_info("%s: done\n", __func__);
+	 pr_info("%s: done\n", __func__);
 }
-
+EXPORT_SYMBOL(isgx_exit_iso);
 // static unsigned long isgx_get_unmapped_area(struct file *file,
 // 					   unsigned long addr,
 // 					   unsigned long len,
@@ -330,7 +236,7 @@ static void __exit isgx_exit(void)
 
 // 	return NOTIFY_OK;
 // }
-//电源事件
+
 // static int isgx_power_event(struct notifier_block *this, unsigned long event,
 // 			    void *ptr)
 // {
@@ -346,6 +252,4 @@ static void __exit isgx_exit(void)
 //         }
 // }
 
-module_init(isgx_init);
-module_exit(isgx_exit);
 MODULE_LICENSE("GPL");

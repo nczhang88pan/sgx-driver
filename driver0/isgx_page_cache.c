@@ -357,14 +357,14 @@ int kisgxswapd(void *p)
 	return 0;
 }
 
-int isgx_page_cache_init(resource_size_t start, unsigned long size)		//对pagecache进行初始化,对其中的每一个页面 构造一个isgx_epc_page结构
+int isgx_page_cache_init(resource_size_t start, unsigned long size)
 {
 	unsigned long i;
 	struct isgx_epc_page *new_epc_page, *entry;
 	struct list_head *parser, *temp;
 
 	for (i = 0; i < size; i += PAGE_SIZE) {
-		new_epc_page = kzalloc(sizeof(struct isgx_epc_page), GFP_KERNEL);	//申请一个epc_page
+		new_epc_page = kzalloc(sizeof(struct isgx_epc_page), GFP_KERNEL);
 		if (!new_epc_page)
 			goto err_freelist;
 		new_epc_page->pa = start + i;
@@ -377,7 +377,7 @@ int isgx_page_cache_init(resource_size_t start, unsigned long size)		//对pageca
 	}
 
 	isgx_nr_high_epc_pages = 2 * isgx_nr_low_epc_pages;
-	kisgxswapd_tsk = kthread_run(kisgxswapd, NULL, "kisgxswapd");		//
+	kisgxswapd_tsk = kthread_run(kisgxswapd, NULL, "kisgxswapd");
 
 	return 0;
 err_freelist:

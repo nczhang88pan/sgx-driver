@@ -114,25 +114,25 @@ struct isgx_tgid_ctx {
 	struct list_head		list;
 };
 
-struct isgx_enclave {
-	unsigned int			flags;
-	struct task_struct		*owner;
-	struct mm_struct		*mm;
-	struct file			*backing;
-	struct list_head		vma_list;
-	struct list_head		load_list;
-	struct kref			refcount;
-	struct mutex			lock;
-	unsigned long			base;
-	unsigned long			size;
-	struct list_head		va_pages;
-	struct rb_root			enclave_rb;
-	struct list_head		add_page_reqs;
-	struct work_struct		add_page_work;
-	unsigned int			secs_child_cnt;
-	struct isgx_enclave_page	secs_page;
-	struct isgx_tgid_ctx		*tgid_ctx;
-	struct list_head		enclave_list;
+struct isgx_enclave {					//	非隔离区		|	隔离区
+	unsigned int			flags;		//				|
+	struct task_struct		*owner;	//所属进程的task_struct		|
+	struct mm_struct		*mm;		//所属进程的mm_struct		|
+	struct file			*backing;	//文件指针：file			|
+	struct list_head		vma_list;		//				|	enclave的isgx_vma链
+	struct list_head		load_list;		//				|	enclave的epc_page链
+	struct kref			refcount;	//				|	enclave被使用次数
+	struct mutex			lock;		//				|	enclave锁
+	unsigned long			base;		//enclave的基地址		|
+	unsigned long			size;		//enclave的大小			|
+	struct list_head		va_pages;		//				|	isgx_va_pages链
+	struct rb_root			enclave_rb;	//				|	enclave红黑树
+	struct list_head		add_page_reqs;		//				|	add_page_request链
+	struct work_struct		add_page_work;	//				|	enclave的add_page_work
+	unsigned int			secs_child_cnt;	//enclave secs中slot的数量?	|	
+	struct isgx_enclave_page	secs_page;		//enclave的secs页		|
+	struct isgx_tgid_ctx		*tgid_ctx;	//enclave对应的tgid_ctx		|
+	struct list_head		enclave_list;		//enclave链			|	
 };
 
 extern struct workqueue_struct *isgx_add_page_wq;
@@ -227,8 +227,8 @@ enum isgx_free_flags {
 };
 
 int kisgxswapd(void *p);
-int isgx_page_cache_init(resource_size_t start, unsigned long size);
-void isgx_page_cache_teardown(void);
+int isgx_page_cache_init_iso(resource_size_t start, unsigned long size);
+void isgx_page_cache_teardown_iso(void);
 struct isgx_epc_page *isgx_alloc_epc_page(
 struct isgx_tgid_ctx *tgid_epc_cnt, unsigned int flags);
 void isgx_free_epc_page(struct isgx_epc_page *entry,

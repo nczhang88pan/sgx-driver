@@ -1,8 +1,10 @@
 ifneq ($(KERNELRELEASE),)
 	enclave_ops-y := \
 		isgx_enclave_ops.o \
+		isgx_main.o \
+		isgx_page_cache.o \
 		isgx_ioctl.o \
-		isgx_page_cache.o
+		isgx_util.o
 	obj-m +=enclave_ops.o
 else
 KDIR := /lib/modules/$(shell uname -r)/build

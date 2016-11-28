@@ -268,21 +268,19 @@ EXPORT_SYMBOL(construct_enclave_page);
 
 // 	return 0;
 // }
-
-// static long isgx_ioctl_enclave_create(struct file *filep, unsigned int cmd,
-// 				      unsigned long arg)
-// {
-// 	struct page_info pginfo;
-// 	struct isgx_secinfo secinfo;
+static long isgx_ioctl_enclave_create_iso(struct isgx_secs *secs_param)
+{
+	struct page_info pginfo;
+	struct isgx_secinfo secinfo;
 // 	struct sgx_enclave_create *createp = (struct sgx_enclave_create *)arg;
-// 	struct isgx_enclave *enclave = NULL;
-// 	struct isgx_secs *secs = NULL;
-// 	struct isgx_epc_page *secs_epc_page;
+	struct isgx_enclave *enclave = NULL;
+	struct isgx_secs *secs = secs_param;
+	struct isgx_epc_page *secs_epc_page;
 // 	struct vm_area_struct *vma;
 // 	struct isgx_vma *evma;
-// 	void *secs_vaddr = NULL;
+	void *secs_vaddr = NULL;
 // 	struct file *backing;
-// 	long ret;
+	long ret;
 
 // 	secs = kzalloc(sizeof(*secs),  GFP_KERNEL);
 // 	if (!secs)
@@ -311,12 +309,12 @@ EXPORT_SYMBOL(construct_enclave_page);
 // 		return PTR_ERR((void *) backing);
 // 	}
 
-// 	enclave = kzalloc(sizeof(struct isgx_enclave), GFP_KERNEL);
-// 	if (!enclave) {
-// 		fput(backing);
-// 		ret = -ENOMEM;
-// 		goto out;
-// 	}
+	enclave = kzalloc(sizeof(struct isgx_enclave), GFP_KERNEL);
+	if (!enclave) {
+		//fput(backing);
+		ret = -ENOMEM;
+		//goto out;
+	}
 
 // 	kref_init(&enclave->refcount);
 // 	INIT_LIST_HEAD(&enclave->add_page_reqs);
@@ -351,14 +349,14 @@ EXPORT_SYMBOL(construct_enclave_page);
 // 	if (ret)
 // 		goto out;
 
-// 	secs_vaddr = isgx_get_epc_page(enclave->secs_page.epc_page);
+	secs_vaddr = isgx_get_epc_page(enclave->secs_page.epc_page);
 
-// 	pginfo.srcpge = (unsigned long) secs;
-// 	pginfo.linaddr = 0;
-// 	pginfo.secinfo = (unsigned long) &secinfo;
-// 	pginfo.secs = 0;
-// 	memset(&secinfo, 0, sizeof(secinfo));
-// 	ret = __ecreate((void *) &pginfo, secs_vaddr);
+	pginfo.srcpge = (unsigned long) secs;
+	pginfo.linaddr = 0;
+	pginfo.secinfo = (unsigned long) &secinfo;
+	pginfo.secs = 0;
+	memset(&secinfo, 0, sizeof(secinfo));
+	ret = __ecreate((void *) &pginfo, secs_vaddr);
 
 // 	isgx_put_epc_page(secs_vaddr);
 
@@ -396,9 +394,9 @@ EXPORT_SYMBOL(construct_enclave_page);
 // 	if (ret && enclave)
 // 		kref_put(&enclave->refcount, isgx_enclave_release);
 // 	kfree(secs);
-// 	return ret;
-// }
-
+	return ret;
+}
+EXPORT_SYMBOL(isgx_ioctl_enclave_create_iso);
 // static int validate_secinfo(struct isgx_secinfo *secinfo)
 // {
 // 	u64 perm = secinfo->flags & ISGX_SECINFO_PERMISSION_MASK;
@@ -544,7 +542,7 @@ EXPORT_SYMBOL(construct_enclave_page);
 // 	up_read(&enclave->mm->mmap_sem);
 // 	__free_page(tmp_page);
 // 	return ret;
-// }
+//}
 
 // static long isgx_ioctl_enclave_add_page(struct file *filep, unsigned int cmd,
 // 					unsigned long arg)

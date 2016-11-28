@@ -189,7 +189,6 @@ static int isgx_init_platform(void)
 
 static int __init isgx_init(void)
 {
-	//test();
 	unsigned int wq_flags;
 	int ret;
 

@@ -128,13 +128,13 @@ static int add_tgid_ctx(struct isgx_enclave *enclave)	//设置当前enclave的tg
 //  * an error code on failure that can be either a POSIX error code or one of the
 //  * error codes defined in isgx_user.h.
 //  */
-extern int construct_enclave_page(struct isgx_enclave *enclave,		//根据
-				  struct isgx_enclave_page *entry,
-				  unsigned long addr);
-// static int construct_enclave_page(struct isgx_enclave *enclave,		//根据
+// extern int construct_enclave_page(struct isgx_enclave *enclave,		//根据
 // 				  struct isgx_enclave_page *entry,
-// 				  unsigned long addr)
-// {
+// 				  unsigned long addr);
+static int construct_enclave_page(struct isgx_enclave *enclave,		//根据
+				  struct isgx_enclave_page *entry,
+				  unsigned long addr)
+{
 // 	struct isgx_va_page *va_page;
 // 	struct isgx_epc_page *epc_page = NULL;
 // 	unsigned int va_offset = PAGE_SIZE;
@@ -181,8 +181,8 @@ extern int construct_enclave_page(struct isgx_enclave *enclave,		//根据
 // 	entry->va_offset = va_offset;	//设置enclave页的va_slot
 // 	entry->addr = addr;		//设置enclave页的addr(线性地址)
 
-// 	return 0;
-// }
+	return 0;
+}
 
 // static int get_enclave(unsigned long addr, struct isgx_enclave **enclave)
 // {
@@ -203,202 +203,202 @@ extern int construct_enclave_page(struct isgx_enclave *enclave,		//根据
 // 	return ret;
 // }
 
-// static int validate_secs(const struct isgx_secs *secs)
-// {
-// 	u32 needed_ssaframesize = 1;
-// 	u32 tmp;
-// 	int i;
+static int validate_secs(const struct isgx_secs *secs)
+{
+	u32 needed_ssaframesize = 1;
+	u32 tmp;
+	int i;
 
-// 	if (secs->flags & ISGX_SECS_A_RESERVED_MASK)
-// 		return -EINVAL;
+	if (secs->flags & ISGX_SECS_A_RESERVED_MASK)
+		return -EINVAL;
 
-// 	if (secs->flags & ISGX_SECS_A_MODE64BIT) {
-// #ifdef CONFIG_X86_64
-// 		if (secs->size > isgx_enclave_size_max_64)
-// 			return -EINVAL;
-// #else
-// 		return -EINVAL;
-// #endif
-// 	} else {
-// 		/* On 64-bit architecture allow 32-bit enclaves only in
-// 		 * the compatibility mode.
-// 		 */
-// #ifdef CONFIG_X86_64
-// 		if (!test_thread_flag(TIF_ADDR32))
-// 			return -EINVAL;
-// #endif
-// 		if (secs->size > isgx_enclave_size_max_32)
-// 			return -EINVAL;
-// 	}
+	if (secs->flags & ISGX_SECS_A_MODE64BIT) {
+#ifdef CONFIG_X86_64
+		if (secs->size > isgx_enclave_size_max_64)
+			return -EINVAL;
+#else
+		return -EINVAL;
+#endif
+	} else {
+		/* On 64-bit architecture allow 32-bit enclaves only in
+		 * the compatibility mode.
+		 */
+#ifdef CONFIG_X86_64
+		if (!test_thread_flag(TIF_ADDR32))
+			return -EINVAL;
+#endif
+		if (secs->size > isgx_enclave_size_max_32)
+			return -EINVAL;
+	}
 
-// 	if ((secs->xfrm & 0x3) != 0x3 || (secs->xfrm & ~isgx_xfrm_mask))
-// 		return -EINVAL;
+	if ((secs->xfrm & 0x3) != 0x3 || (secs->xfrm & ~isgx_xfrm_mask))
+		return -EINVAL;
 
-// 	/* SKL quirk */
-// 	if ((secs->xfrm & BIT(3)) != (secs->xfrm & BIT(4)))
-// 		return -EINVAL;
+	/* SKL quirk */
+	if ((secs->xfrm & BIT(3)) != (secs->xfrm & BIT(4)))
+		return -EINVAL;
 
-// 	for (i = 2; i < 64; i++) {
-// 		tmp = isgx_ssaframesize_tbl[i];
-// 		if (((1 << i) & secs->xfrm) && (tmp > needed_ssaframesize))
-// 			needed_ssaframesize = tmp;
-// 	}
+	for (i = 2; i < 64; i++) {
+		tmp = isgx_ssaframesize_tbl[i];
+		if (((1 << i) & secs->xfrm) && (tmp > needed_ssaframesize))
+			needed_ssaframesize = tmp;
+	}
 
-// 	if (!secs->ssaframesize || !needed_ssaframesize ||
-// 	    needed_ssaframesize > secs->ssaframesize)
-// 		return -EINVAL;
+	if (!secs->ssaframesize || !needed_ssaframesize ||
+	    needed_ssaframesize > secs->ssaframesize)
+		return -EINVAL;
 
-// 	/* Must be power of two  */
-// 	if (secs->size == 0 || (secs->size & (secs->size - 1)) != 0)
-// 		return -EINVAL;
+	/* Must be power of two  */
+	if (secs->size == 0 || (secs->size & (secs->size - 1)) != 0)
+		return -EINVAL;
 
-// 	for (i = 0; i < ISGX_SECS_RESERVED1_SIZE; i++)
-// 		if (secs->reserved1[i])
-// 			return -EINVAL;
+	for (i = 0; i < ISGX_SECS_RESERVED1_SIZE; i++)
+		if (secs->reserved1[i])
+			return -EINVAL;
 
-// 	for (i = 0; i < ISGX_SECS_RESERVED2_SIZE; i++)
-// 		if (secs->reserved2[i])
-// 			return -EINVAL;
+	for (i = 0; i < ISGX_SECS_RESERVED2_SIZE; i++)
+		if (secs->reserved2[i])
+			return -EINVAL;
 
-// 	for (i = 0; i < ISGX_SECS_RESERVED3_SIZE; i++)
-// 		if (secs->reserved3[i])
-// 			return -EINVAL;
+	for (i = 0; i < ISGX_SECS_RESERVED3_SIZE; i++)
+		if (secs->reserved3[i])
+			return -EINVAL;
 
-// 	for (i = 0; i < ISGX_SECS_RESERVED4_SIZE; i++)
-// 		if (secs->reserved[i])
-// 			return -EINVAL;
+	for (i = 0; i < ISGX_SECS_RESERVED4_SIZE; i++)
+		if (secs->reserved[i])
+			return -EINVAL;
 
-// 	return 0;
-// }
-
+	return 0;
+}
+extern long isgx_ioctl_enclave_create_iso(struct isgx_secs *secs_param);
 long isgx_ioctl_enclave_create(struct file *filep, unsigned int cmd,
 				      unsigned long arg)
 {
-	struct page_info pginfo;
-	struct isgx_secinfo secinfo;
-	struct sgx_enclave_create *createp = (struct sgx_enclave_create *)arg;	//sgx_enclave_create包含一个src地址 它的内容是用户空间当中的secs
-	struct isgx_enclave *enclave = NULL;
-	struct isgx_secs *secs = NULL;
-	struct isgx_epc_page *secs_epc_page;
-	struct vm_area_struct *vma;
-	struct isgx_vma *evma;
-	void *secs_vaddr = NULL;
-	struct file *backing;
-	long ret;
+	printk("ioctl_enclave_create");
+// 	//struct page_info pginfo;
+// 	struct isgx_secinfo secinfo;
+// 	struct sgx_enclave_create *createp = (struct sgx_enclave_create *)arg;	//sgx_enclave_create包含一个src地址 它的内容是用户空间当中的secs
+// 	struct isgx_enclave *enclave = NULL;
+// 	struct isgx_secs *secs = NULL;
+// 	struct isgx_epc_page *secs_epc_page;
+// 	struct vm_area_struct *vma;
+// 	struct isgx_vma *evma;
+// 	void *secs_vaddr = NULL;
+// 	struct file *backing;
+// 	long ret;
 
-	secs = kzalloc(sizeof(*secs),  GFP_KERNEL);
-	// if (!secs)
-	// 	return -ENOMEM;
+// 	secs = kzalloc(sizeof(*secs),  GFP_KERNEL);							//secs需要放在driver2中
+// 	if (!secs)
+// 		return -ENOMEM;
 
-	// ret = copy_from_user(secs, (void *)createp->src, sizeof (*secs));	//把用户空间的secs复制到内核空间当中去
-	// if (ret) {
-	// 	kfree(secs);
-	// 	return ret;
-	// }
-
-	// if (validate_secs(secs)) {
-	// 	kfree(secs);
-	// 	return -EINVAL;
-	// }
-
-	// backing = shmem_file_setup("Intel SGX backing storage",		//在特殊文件系统shm当中,建立一个映射文件,内存中换出的页放进backing
-	// 			   secs->size + PAGE_SIZE,
-	// 			   VM_NORESERVE);
-	// if (IS_ERR((void *) backing)) {
-	// 	pr_debug("isgx: [%d] vm_mmap() for the backing of size 0x%lx returned %ld\n",
-	// 		 pid_nr(task_tgid(current->group_leader)),
-	// 		 (unsigned long) secs->size,
-	// 		 ret);
-	// 	kfree(secs);
-	// 	return PTR_ERR((void *) backing);
-	// }
-
-	enclave = kzalloc(sizeof(struct isgx_enclave), GFP_KERNEL);	//申请一个isgx_enclave结构
-	// if (!enclave) {
-	// 	fput(backing);	//释放backing文件结构体
-	// 	ret = -ENOMEM;
-	// 	goto out;
-	// }
-
-	//kref_init(&enclave->refcount);	//enclave的被使用次数
-	INIT_LIST_HEAD(&enclave->add_page_reqs);
-	INIT_LIST_HEAD(&enclave->va_pages);
-	INIT_LIST_HEAD(&enclave->vma_list);
-	INIT_LIST_HEAD(&enclave->load_list);
-	INIT_LIST_HEAD(&enclave->enclave_list);
-	//mutex_init(&enclave->lock);
-	//INIT_WORK(&enclave->add_page_work, isgx_add_page_worker);
-
-	enclave->owner = current->group_leader;
-	enclave->mm = current->mm;	//当前进程的mm_struct
-	enclave->base = secs->base;	//enclave的基址
-	enclave->size = secs->size;	//enclave的大小
-	enclave->backing = backing;
-
-	//ret = add_tgid_ctx(enclave);	//设置enclave的tgid_ctx
-	// if (ret)
-	// 	goto out;
-
-	// secs_epc_page = isgx_alloc_epc_page(NULL, 0);	//申请一个secs页
-	// if (IS_ERR(secs_epc_page)) {
-	// 	ret = PsTR_ERR(secs_epc_page);
-	// 	secs_epc_page = NULL;
-	// 	goto out;
-	// }
-
-	enclave->secs_page.epc_page = secs_epc_page;	//设置enclave的secs页
-	printk("driver2: enclave create\n");
-	ret = construct_enclave_page(enclave, &enclave->secs_page,	//为secs_page,分配一个enclave页,它的线性地址为enclave->base + enclave->size,secs的位置是固定的
-				     enclave->base + enclave->size);
-	if (ret)
-		goto out;
-
-// 	secs_vaddr = isgx_get_epc_page(enclave->secs_page.epc_page);	//EPC当中,目的secs的地址,这里已经分配好了,该地址应该放进隔离区
-
-	pginfo.srcpge = (unsigned long) secs;		//源secs的地址,这个可以知道
-	pginfo.linaddr = 0;				
-	pginfo.secinfo = (unsigned long) &secinfo;	//secinfo是enclave_page的metadata
-	pginfo.secs = 0;					//与文档中一致,这个域没有使用
-	memset(&secinfo, 0, sizeof(secinfo));
-	ret = __ecreate((void *) &pginfo, secs_vaddr);	//这里最好把pageinfo中指针及其指向的内容,复制到隔离区内部,也就是将srcpage和secinfo的内容拷贝到隔离区?
-
-// 	isgx_put_epc_page(secs_vaddr);
-
+// 	ret = copy_from_user(secs, (void *)createp->src, sizeof (*secs));	//把用户空间的secs复制到内核空间当中去
 // 	if (ret) {
-// 		isgx_info(enclave, "ECREATE returned %d\n", (int)ret);
-// 		goto out;
+// 		kfree(secs);
+// 		return ret;
 // 	}
 
-// 	if (secs->flags & ISGX_SECS_A_DEBUG)
-// 		enclave->flags |= ISGX_ENCLAVE_DEBUG;
-
-// 	down_read(&current->mm->mmap_sem);	//读获取信号量,
-// 	vma = find_vma(current->mm, secs->base);	//获取对应的secs->base对应的vma
-// 	if (!vma || vma->vm_ops != &isgx_vm_ops ||
-// 	    vma->vm_start != secs->base ||
-// 	    vma->vm_end != (secs->base + secs->size)) {
-// 		up_read(&current->mm->mmap_sem);
-// 		ret = -EINVAL;
-// 		goto out;
+// 	if (validate_secs(secs)) {
+// 		kfree(secs);
+// 		return -EINVAL;
 // 	}
-// 	evma = kzalloc(sizeof(struct isgx_vma), GFP_KERNEL);
-// 	if (evma) {							//设置enclave的vma
-// 		evma->vma = vma;
-// 		list_add_tail(&evma->vma_list, &enclave->vma_list);	//将其加入enclave的vma_list当中
-// 		vma->vm_private_data = enclave;			//
-// 	} else {
+
+// 	backing = shmem_file_setup("Intel SGX backing storage",		//在特殊文件系统shm当中,建立一个映射文件,内存中换出的页放进backing
+// 				   secs->size + PAGE_SIZE,
+// 				   VM_NORESERVE);
+// 	if (IS_ERR((void *) backing)) {
+// 		pr_debug("isgx: [%d] vm_mmap() for the backing of size 0x%lx returned %ld\n",
+// 			 pid_nr(task_tgid(current->group_leader)),
+// 			 (unsigned long) secs->size,
+// 			 ret);
+// 		kfree(secs);
+// 		return PTR_ERR((void *) backing);
+// 	}
+
+// 	enclave = kzalloc(sizeof(struct isgx_enclave), GFP_KERNEL);	//申请一个isgx_enclave结构
+// 	if (!enclave) {
+// 		fput(backing);	//释放backing文件结构体
 // 		ret = -ENOMEM;
+// 		goto out;
 // 	}
-// 	up_read(&current->mm->mmap_sem);
 
-// 	mutex_lock(&isgx_tgid_ctx_mutex);
-// 	list_add_tail(&enclave->enclave_list, &enclave->tgid_ctx->enclave_list);	//enclave加入tgid_ctx的enclave_list中
-// 	mutex_unlock(&isgx_tgid_ctx_mutex);
-out:
-	// if (ret && enclave)
-	// 	kref_put(&enclave->refcount, isgx_enclave_release);
-	// kfree(secs);
-	return ret;
+// 	kref_init(&enclave->refcount);	//enclave的被使用次数
+// 	INIT_LIST_HEAD(&enclave->add_page_reqs);
+// 	INIT_LIST_HEAD(&enclave->va_pages);
+// 	INIT_LIST_HEAD(&enclave->vma_list);
+// 	INIT_LIST_HEAD(&enclave->load_list);
+// 	INIT_LIST_HEAD(&enclave->enclave_list);
+// 	//mutex_init(&enclave->lock);
+// 	//INIT_WORK(&enclave->add_page_work, isgx_add_page_worker);
+
+// 	enclave->owner = current->group_leader;
+// 	enclave->mm = current->mm;	//当前进程的mm_struct
+// 	enclave->base = secs->base;	//enclave的基址
+// 	enclave->size = secs->size;	//enclave的大小
+// 	enclave->backing = backing;
+
+// 	ret = add_tgid_ctx(enclave);	//设置enclave的tgid_ctx
+// 	if (ret)
+// 		goto out;
+
+// 	// secs_epc_page = isgx_alloc_epc_page(NULL, 0);	//申请一个secs页
+// 	// if (IS_ERR(secs_epc_page)) {
+// 	// 	// ret = PsTR_ERR(secs_epc_page);
+// 	// 	secs_epc_page = NULL;
+// 	// 	goto out;
+// 	// }
+
+// 	// enclave->secs_page.epc_page = secs_epc_page;	//设置enclave的secs页
+// 	//ret = construct_enclave_page(enclave, &enclave->secs_page,	//为secs_page,分配一个enclave页,它的线性地址为enclave->base + enclave->size,secs的位置是固定的
+// 				    // enclave->base + enclave->size);
+// 	if (ret)
+// 		goto out;
+
+// 	//secs_vaddr = isgx_get_epc_page(enclave->secs_page.epc_page);	//EPC当中,目的secs的地址,这里已经分配好了,该地址应该放进隔离区
+
+// 	// pginfo.srcpge = (unsigned long) secs;		//源secs的地址,这个可以知道
+// 	// pginfo.linaddr = 0;				
+// 	// pginfo.secinfo = (unsigned long) &secinfo;	//secinfo是enclave_page的metadata
+// 	// pginfo.secs = 0;					//与文档中一致,这个域没有使用
+// 	// memset(&secinfo, 0, sizeof(secinfo));
+// 	// ret = __ecreate((void *) &pginfo, secs_vaddr);	//这里最好把pageinfo中指针及其指向的内容,复制到隔离区内部,也就是将srcpage和secinfo的内容拷贝到隔离区?
+// 	isgx_ioctl_enclave_create_iso(secs);
+// // 	isgx_put_epc_page(secs_vaddr);
+
+// // 	if (ret) {
+// // 		isgx_info(enclave, "ECREATE returned %d\n", (int)ret);
+// // 		goto out;
+// // 	}
+
+// // 	if (secs->flags & ISGX_SECS_A_DEBUG)
+// // 		enclave->flags |= ISGX_ENCLAVE_DEBUG;
+
+// // 	down_read(&current->mm->mmap_sem);	//读获取信号量,
+// // 	vma = find_vma(current->mm, secs->base);	//获取对应的secs->base对应的vma
+// // 	if (!vma || vma->vm_ops != &isgx_vm_ops ||
+// // 	    vma->vm_start != secs->base ||
+// // 	    vma->vm_end != (secs->base + secs->size)) {
+// // 		up_read(&current->mm->mmap_sem);
+// // 		ret = -EINVAL;
+// // 		goto out;
+// // 	}
+// // 	evma = kzalloc(sizeof(struct isgx_vma), GFP_KERNEL);
+// // 	if (evma) {							//设置enclave的vma
+// // 		evma->vma = vma;
+// // 		list_add_tail(&evma->vma_list, &enclave->vma_list);	//将其加入enclave的vma_list当中
+// // 		vma->vm_private_data = enclave;			//
+// // 	} else {
+// // 		ret = -ENOMEM;
+// // 	}
+// // 	up_read(&current->mm->mmap_sem);
+
+// // 	mutex_lock(&isgx_tgid_ctx_mutex);
+// // 	list_add_tail(&enclave->enclave_list, &enclave->tgid_ctx->enclave_list);	//enclave加入tgid_ctx的enclave_list中
+// // 	mutex_unlock(&isgx_tgid_ctx_mutex);
+// out:
+// 	// if (ret && enclave)
+// 	// 	kref_put(&enclave->refcount, isgx_enclave_release);
+// 	// kfree(secs);
+// 	return ret;
 }
 
 // static int validate_secinfo(struct isgx_secinfo *secinfo)
@@ -445,119 +445,120 @@ static int __enclave_add_page(struct isgx_enclave *enclave,
 			      struct sgx_enclave_add_page *addp,
 			      struct isgx_secinfo *secinfo)
 {
-	u64 page_type = secinfo->flags & ISGX_SECINFO_PAGE_TYPE_MASK;
-	struct isgx_tcs *tcs;
-	struct page *backing_page;
-	struct isgx_add_page_req *req = NULL;						//request结构
-	int ret;
-	int empty;
-	void *user_vaddr;
-	void *tmp_vaddr;
-	struct page *tmp_page;
+// 	u64 page_type = secinfo->flags & ISGX_SECINFO_PAGE_TYPE_MASK;
+// 	struct isgx_tcs *tcs;
+// 	struct page *backing_page;
+// 	struct isgx_add_page_req *req = NULL;						//request结构
+// 	int ret;
+// 	int empty;
+// 	void *user_vaddr;
+// 	void *tmp_vaddr;
+// 	struct page *tmp_page;
 
-	tmp_page = alloc_page(GFP_HIGHUSER);					//申请一个temp页
-	if (!tmp_page)
-		return -ENOMEM;
+// 	tmp_page = alloc_page(GFP_HIGHUSER);					//申请一个temp页
+// 	if (!tmp_page)
+// 		return -ENOMEM;
 
-	tmp_vaddr = kmap(tmp_page);							
-	ret = copy_from_user((void *)tmp_vaddr, (void *)addp->src, PAGE_SIZE);	//并将页的内容拷贝到内核空间中的tmp_page
-	kunmap(tmp_page);
-	if (ret) {
-		__free_page(tmp_page);
-		return -EFAULT;
-	}
+// 	tmp_vaddr = kmap(tmp_page);							
+// 	ret = copy_from_user((void *)tmp_vaddr, (void *)addp->src, PAGE_SIZE);	//并将页的内容拷贝到内核空间中的tmp_page
+// 	kunmap(tmp_page);
+// 	if (ret) {
+// 		__free_page(tmp_page);
+// 		return -EFAULT;
+// 	}
 
-	if (validate_secinfo(secinfo)) {
-		__free_page(tmp_page);
-		return -EINVAL;
-	}
+// 	if (validate_secinfo(secinfo)) {
+// 		__free_page(tmp_page);
+// 		return -EINVAL;
+// 	}
 
-	if (page_type == SGX_SECINFO_TCS) {
-		tcs = (struct isgx_tcs *) kmap(tmp_page);				//这个页是一个TCS页,要对TCS进行验证
-		ret = validate_tcs(tcs);
-		kunmap(tmp_page);
-		if (ret) {
-			__free_page(tmp_page);
-			return ret;
-		}
-	}
+// 	if (page_type == SGX_SECINFO_TCS) {
+// 		tcs = (struct isgx_tcs *) kmap(tmp_page);				//这个页是一个TCS页,要对TCS进行验证
+// 		ret = validate_tcs(tcs);
+// 		kunmap(tmp_page);
+// 		if (ret) {
+// 			__free_page(tmp_page);
+// 			return ret;
+// 		}
+// 	}
 
-	ret = construct_enclave_page(enclave, enclave_page, addp->addr);		//构造enclave页,其线性地址为addp->addr
-	if (ret) {
-		__free_page(tmp_page);
-		return -EINVAL;
-	}
+// 	ret = construct_enclave_page(enclave, enclave_page, addp->addr);		//构造enclave页,其线性地址为addp->addr
+// 	if (ret) {
+// 		__free_page(tmp_page);
+// 		return -EINVAL;
+// 	}
 
-	down_read(&enclave->mm->mmap_sem);
-	mutex_lock(&enclave->lock);
+// 	down_read(&enclave->mm->mmap_sem);
+// 	mutex_lock(&enclave->lock);
 
-	if (enclave->flags & ISGX_ENCLAVE_INITIALIZED) {
-		ret = -EINVAL;
-		goto out;
-	}
+// 	if (enclave->flags & ISGX_ENCLAVE_INITIALIZED) {
+// 		ret = -EINVAL;
+// 		goto out;
+// 	}
 
-	if (isgx_enclave_find_page(enclave, addp->addr)) {
-		ret = -EEXIST;
-		goto out;
-	}
+// 	if (isgx_enclave_find_page(enclave, addp->addr)) {
+// 		ret = -EEXIST;
+// 		goto out;
+// 	}
 
-	if (!(req = kzalloc(sizeof(*req), GFP_KERNEL))) {
-		ret = -ENOMEM;
-		goto out;
-	}
+// 	if (!(req = kzalloc(sizeof(*req), GFP_KERNEL))) {
+// 		ret = -ENOMEM;
+// 		goto out;
+// 	}
 
-	backing_page = isgx_get_backing_page(enclave, enclave_page, true);		//获取isgx的backing_page
-	if (IS_ERR((void *) backing_page)) {
-		ret = PTR_ERR((void *) backing_page);
-		goto out;
-	}
+// 	backing_page = isgx_get_backing_page(enclave, enclave_page, true);		//获取isgx的backing_page
+// 	if (IS_ERR((void *) backing_page)) {
+// 		ret = PTR_ERR((void *) backing_page);
+// 		goto out;
+// 	}
 
-	user_vaddr = kmap(backing_page);
-	tmp_vaddr = kmap(tmp_page);
-	memcpy(user_vaddr, tmp_vaddr, PAGE_SIZE);					//tmp_page的数据拷贝到backing_page中
-	kunmap(backing_page);
-	kunmap(tmp_page);
+// 	user_vaddr = kmap(backing_page);
+// 	tmp_vaddr = kmap(tmp_page);
+// 	memcpy(user_vaddr, tmp_vaddr, PAGE_SIZE);					//tmp_page的数据拷贝到backing_page中
+// 	kunmap(backing_page);
+// 	kunmap(tmp_page);
 
-	if (page_type == SGX_SECINFO_TCS)
-		encl                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ave_page->flags |= ISGX_ENCLAVE_PAGE_TCS;
+// 	if (page_type == SGX_SECINFO_TCS)
+// 		enclave_page->flags |=  ISGX_ENCLAVE_PAGE_TCS;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ave_page->flags |= ISGX_ENCLAVE_PAGE_TCS;
 
-	memcpy(&req->secinfo, secinfo, sizeof(*secinfo));				//将secinfo拷贝到&req->secinfo当中
+// 	memcpy(&req->secinfo, secinfo, sizeof(*secinfo));				//将secinfo拷贝到&req->secinfo当中
 
-	req->enclave = enclave;
-	req->enclave_page = enclave_page;
-	req->mrmask = addp->mrmask;
-	empty = list_empty(&enclave->add_page_reqs);				//检查这个链表是否为空
-	kref_get(&enclave->refcount);
-	list_add_tail(&req->list, &enclave->add_page_reqs);				//将req加入到enclave的add request队列当中去
-	if (empty)									//链表为空的时候,就马上进行处理,否则这个req还是在enclave的add_page_reqs当中,worker会自动处理它
-		queue_work(isgx_add_page_wq, &enclave->add_page_work);		//如果add_page_reqs为空,插入节点并唤醒进程
+// 	req->enclave = enclave;
+// 	req->enclave_page = enclave_page;
+// 	req->mrmask = addp->mrmask;
+// 	empty = list_empty(&enclave->add_page_reqs);				//检查这个链表是否为空
+// 	kref_get(&enclave->refcount);
+// 	list_add_tail(&req->list, &enclave->add_page_reqs);				//将req加入到enclave的add request队列当中去
+// 	if (empty)									//链表为空的时候,就马上进行处理,否则这个req还是在enclave的add_page_reqs当中,worker会自动处理它
+// 		queue_work(isgx_add_page_wq, &enclave->add_page_work);		//如果add_page_reqs为空,插入节点并唤醒进程
 
-	set_page_dirty(backing_page);							//设置脏页
-	put_page(backing_page);
-out:
-	if (ret) {
-		kfree(req);
-		isgx_free_va_slot(enclave_page->va_page,
-				  enclave_page->va_offset);
-	} else
-		BUG_ON(enclave_rb_insert(&enclave->enclave_rb, enclave_page));
+// 	set_page_dirty(backing_page);							//设置脏页
+// 	put_page(backing_page);
+// out:
+// 	if (ret) {
+// 		kfree(req);
+// 		isgx_free_va_slot(enclave_page->va_page,
+// 				  enclave_page->va_offset);
+// 	} else
+// 		BUG_ON(enclave_rb_insert(&enclave->enclave_rb, enclave_page));
 
-	mutex_unlock(&enclave->lock);
-	up_read(&enclave->mm->mmap_sem);
-	__free_page(tmp_page);
-	return ret;
+// 	mutex_unlock(&enclave->lock);
+// 	up_read(&enclave->mm->mmap_sem);
+// 	__free_page(tmp_page);
+// 	return ret;
 }
 
 static long isgx_ioctl_enclave_add_page(struct file *filep, unsigned int cmd,
 					unsigned long arg)
 {
-	struct sgx_enclave_add_page *addp;
-	struct isgx_enclave *enclave;
-	struct isgx_enclave_page *page;
-	struct isgx_secinfo secinfo;
-	int ret;
+	// struct sgx_enclave_add_page *addp;
+	// struct isgx_enclave *enclave;
+	// struct isgx_enclave_page *page;
+	// struct isgx_secinfo secinfo;
+	// int ret;
 
-	addp = (struct sgx_enclave_add_page *) arg;			//addp由应用程序决定
+	// addp = (struct sgx_enclave_add_page *) arg;			//addp由应用程序决定
+	printk("isgx ioctl enclave add page\n");
 
 // 	if (addp->addr & (PAGE_SIZE - 1))
 // 		return -EINVAL;
@@ -637,10 +638,11 @@ static long isgx_ioctl_enclave_add_page(struct file *filep, unsigned int cmd,
 // 	return ret;
 // }
 
-// static long isgx_ioctl_enclave_init(struct file *filep, unsigned int cmd,
-// 				    unsigned long arg)
-// {
-// 	int ret = -EINVAL;
+static long isgx_ioctl_enclave_init(struct file *filep, unsigned int cmd,
+				    unsigned long arg)
+{
+	int ret = -EINVAL;
+	printk("enclave_init\n");
 // 	struct sgx_enclave_init *initp = (struct sgx_enclave_init *) arg;
 // 	unsigned long enclave_id = initp->addr;
 // 	char *sigstruct;
@@ -686,44 +688,44 @@ static long isgx_ioctl_enclave_add_page(struct file *filep, unsigned int cmd,
 // out_free_page:
 // 	kunmap(initp_page);
 // 	__free_page(initp_page);
-// 	return ret;
-// }
+	return ret;
+}
 
-// typedef long (*isgx_ioctl_t)(struct file *filep, unsigned int cmd,
-// 			     unsigned long arg);
+typedef long (*isgx_ioctl_t)(struct file *filep, unsigned int cmd,
+			     unsigned long arg);
 
-// long isgx_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
-// {
-// 	char data[256];
-// 	isgx_ioctl_t handler = NULL;
-// 	long ret;
+long isgx_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+{
+	char data[256];
+	isgx_ioctl_t handler = NULL;
+	long ret;
 
-// 	switch (cmd) {
-// 	case SGX_IOC_ENCLAVE_CREATE:
-// 		handler = isgx_ioctl_enclave_create;
-// 		break;
-// 	case SGX_IOC_ENCLAVE_ADD_PAGE:
-// 		handler = isgx_ioctl_enclave_add_page;
-// 		break;
-// 	case SGX_IOC_ENCLAVE_INIT:
-// 		handler = isgx_ioctl_enclave_init;
-// 		break;
-// 	default:
-// 		return -EINVAL;
-// 	}
+	switch (cmd) {
+	case SGX_IOC_ENCLAVE_CREATE:
+		handler = isgx_ioctl_enclave_create;
+		break;
+	case SGX_IOC_ENCLAVE_ADD_PAGE:
+		handler = isgx_ioctl_enclave_add_page;
+		break;
+	case SGX_IOC_ENCLAVE_INIT:
+		handler = isgx_ioctl_enclave_init;
+		break;
+	default:
+		return -EINVAL;
+	}
 
-// 	if (copy_from_user(data, (void __user *) arg, _IOC_SIZE(cmd)))
-// 		return -EFAULT;
+	if (copy_from_user(data, (void __user *) arg, _IOC_SIZE(cmd)))
+		return -EFAULT;
 
-// 	ret = handler(filep, cmd, (unsigned long) ((void *) data));
+	ret = handler(filep, cmd, (unsigned long) ((void *) data));
 
-// 	if (!ret && (cmd & IOC_OUT)) {
-// 		if (copy_to_user((void __user *) arg, data, _IOC_SIZE(cmd)))
-// 			return -EFAULT;
-// 	}
+	if (!ret && (cmd & IOC_OUT)) {
+		if (copy_to_user((void __user *) arg, data, _IOC_SIZE(cmd)))
+			return -EFAULT;
+	}
 
-// 	return ret;
-// }
+	return ret;
+}
 
 // static int do_eadd(struct isgx_epc_page *secs_page,
 // 		   struct isgx_epc_page *epc_page,

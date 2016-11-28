@@ -17,21 +17,29 @@ __attribute__((section(".gnu.linkonce.this_module"))) = {
 static const struct modversion_info ____versions[]
 __used
 __attribute__((section("__versions"))) = {
-	{ 0xcb9fb324, __VMLINUX_SYMBOL_STR(module_layout) },
-	{ 0x2a96c65b, __VMLINUX_SYMBOL_STR(kmalloc_caches) },
+	{ 0xc6c01fa, __VMLINUX_SYMBOL_STR(module_layout) },
 	{ 0x43a53735, __VMLINUX_SYMBOL_STR(__alloc_workqueue_key) },
-	{ 0x4c4f1833, __VMLINUX_SYMBOL_STR(boot_cpu_data) },
-	{ 0xabfa3d75, __VMLINUX_SYMBOL_STR(construct_enclave_page) },
-	{ 0xf032ca49, __VMLINUX_SYMBOL_STR(misc_register) },
-	{ 0x4c62fd7, __VMLINUX_SYMBOL_STR(__memset) },
-	{ 0xafc86d99, __VMLINUX_SYMBOL_STR(current_task) },
+	{ 0xc8b57c27, __VMLINUX_SYMBOL_STR(autoremove_wake_function) },
+	{ 0xa50a80c2, __VMLINUX_SYMBOL_STR(boot_cpu_data) },
+	{ 0x75e82745, __VMLINUX_SYMBOL_STR(kthread_create_on_node) },
+	{ 0x4f8b5ddb, __VMLINUX_SYMBOL_STR(_copy_to_user) },
+	{ 0x11517817, __VMLINUX_SYMBOL_STR(misc_register) },
+	{ 0x194f312, __VMLINUX_SYMBOL_STR(isgx_init_iso) },
+	{ 0x391afe42, __VMLINUX_SYMBOL_STR(current_task) },
 	{ 0x27e1a049, __VMLINUX_SYMBOL_STR(printk) },
+	{ 0xbfec97cb, __VMLINUX_SYMBOL_STR(kthread_stop) },
 	{ 0x8c03d20c, __VMLINUX_SYMBOL_STR(destroy_workqueue) },
-	{ 0xeda16ce5, __VMLINUX_SYMBOL_STR(isgx_page_cache_init) },
-	{ 0xaaabc306, __VMLINUX_SYMBOL_STR(test) },
-	{ 0x5f3e1c5e, __VMLINUX_SYMBOL_STR(__ecreate) },
+	{ 0xdb7305a1, __VMLINUX_SYMBOL_STR(__stack_chk_fail) },
+	{ 0x1000e51, __VMLINUX_SYMBOL_STR(schedule) },
+	{ 0x5b7c78a8, __VMLINUX_SYMBOL_STR(pv_cpu_ops) },
+	{ 0x179ea56, __VMLINUX_SYMBOL_STR(wake_up_process) },
 	{ 0xbdfb6dbb, __VMLINUX_SYMBOL_STR(__fentry__) },
-	{ 0xd0c055fc, __VMLINUX_SYMBOL_STR(kmem_cache_alloc_trace) },
+	{ 0xb3f7646e, __VMLINUX_SYMBOL_STR(kthread_should_stop) },
+	{ 0x3bb5114a, __VMLINUX_SYMBOL_STR(prepare_to_wait) },
+	{ 0xf08242c2, __VMLINUX_SYMBOL_STR(finish_wait) },
+	{ 0x2831cb92, __VMLINUX_SYMBOL_STR(isgx_exit_iso) },
+	{ 0x4f6b400b, __VMLINUX_SYMBOL_STR(_copy_from_user) },
+	{ 0x712c3460, __VMLINUX_SYMBOL_STR(misc_deregister) },
 };
 
 static const char __module_depends[]
@@ -40,4 +48,4 @@ __attribute__((section(".modinfo"))) =
 "depends=enclave_ops";
 
 
-MODULE_INFO(srcversion, "5AC0F3EC64FE4A102708FB8");
+MODULE_INFO(srcversion, "80B23ED2236E13BFC74B177");

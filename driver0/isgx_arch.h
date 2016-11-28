@@ -148,31 +148,136 @@ enum {
 	EWB	= 0xB,
 	ETRACK	= 0xC,
 };
-//for test use
-extern int test(void);
-extern unsigned long __ecreate(struct page_info *pginfo, void *secs);
 
-extern  int __eextend(void *secs, void *epc);
+#define __encls_ret(rax, rbx, rcx, rdx)	\
+	({				\
+	int ret;			\
+	asm volatile("1: .byte 0x0f, 0x01, 0xcf;\n\t"	\
+		     "2: \n"					\
+		     ".section .fixup,\"ax\"\n"			\
+		     "3:   jmp 2b\n"				\
+		     ".previous\n"				\
+		     _ASM_EXTABLE(1b, 3b)			\
+		     : "=a"(ret)				\
+		     : "a"(rax), "b"(rbx), "c"(rcx), "d"(rdx)	\
+		     : "memory");				\
+	ret;	\
+	})
 
-extern int __eadd(struct page_info *pginfo, void *epc);
+#ifdef CONFIG_X86_64
+#define __encls(rax, rbx, rcx, rdx...)	\
+	({				\
+	int ret;			\
+	asm volatile("1: .byte 0x0f, 0x01, 0xcf;\n\t"	\
+		     " xor %%eax,%%eax;\n"		\
+		     "2: \n"					\
+		     ".section .fixup,\"ax\"\n"			\
+		     "3: movq $-1,%%rax\n"			\
+		     "   jmp 2b\n"				\
+		     ".previous\n"				\
+		     _ASM_EXTABLE(1b, 3b)			\
+		     : "=a"(ret), "=b"(rbx), "=c"(rcx)		\
+		     : "a"(rax), "b"(rbx), "c"(rcx), rdx	\
+		     : "memory");				\
+	ret;	\
+	})
+#else
+#define __encls(rax, rbx, rcx, rdx...)	\
+	({				\
+	int ret;			\
+	asm volatile("1: .byte 0x0f, 0x01, 0xcf;\n\t"	\
+		     " xor %%eax,%%eax;\n"		\
+		     "2: \n"					\
+		     ".section .fixup,\"ax\"\n"			\
+		     "3: mov $-1,%%eax\n"			\
+		     "   jmp 2b\n"				\
+		     ".previous\n"				\
+		     _ASM_EXTABLE(1b, 3b)			\
+		     : "=a"(ret), "=b"(rbx), "=c"(rcx)		\
+		     : "a"(rax), "b"(rbx), "c"(rcx), rdx	\
+		     : "memory");				\
+	ret;	\
+	})
+#endif
 
-extern int __einit(void *sigstruct, struct isgx_einittoken *einittoken,
-			  void *secs);
+static inline unsigned long __ecreate(struct page_info *pginfo, void *secs)
+{
+	return __encls(ECREATE, pginfo, secs, "d"(0));
+}
 
-extern int __eremove(void *epc);
+static inline int __eextend(void *secs, void *epc)
+{
+	return __encls(EEXTEND, secs, epc, "d"(0));
+}
 
-extern int __edbgwr(void *epc, unsigned long *data);
+static inline int __eadd(struct page_info *pginfo, void *epc)
+{
+	return __encls(EADD, pginfo, epc, "d"(0));
+}
 
-extern int __edbgrd(void *epc, unsigned long *data);
+static inline int __einit(void *sigstruct, struct isgx_einittoken *einittoken,
+			  void *secs)
+{
+	return __encls_ret(EINIT, sigstruct, secs, einittoken);
+}
 
-extern int __etrack(void *epc);
+static inline int __eremove(void *epc)
+{
+	unsigned long rbx = 0;
+	unsigned long rdx = 0;
 
-extern int __eldu(unsigned long rbx, unsigned long rcx,
-			 unsigned long rdx);
+	return __encls_ret(EREMOVE, rbx, epc, rdx);
+}
 
-extern int __eblock(unsigned long rcx);
+static inline int __edbgwr(void *epc, unsigned long *data)
+{
+	return __encls(EDGBWR, *data, epc, "d"(0));
+}
 
-extern int __epa(void *epc);
+static inline int __edbgrd(void *epc, unsigned long *data)
+{
+	unsigned long rbx = 0;
+	int ret;
 
-extern int __ewb(struct page_info *pginfo, void *epc, void *va);
+	ret = __encls(EDGBRD, rbx, epc, "d"(0));
+	if (!ret)
+		*(unsigned long *) data = rbx;
+
+	return ret;
+}
+
+static inline int __etrack(void *epc)
+{
+	unsigned long rbx = 0;
+	unsigned long rdx = 0;
+
+	return __encls_ret(ETRACK, rbx, epc, rdx);
+}
+
+static inline int __eldu(unsigned long rbx, unsigned long rcx,
+			 unsigned long rdx)
+{
+	return __encls_ret(ELDU, rbx, rcx, rdx);
+}
+
+static inline int __eblock(unsigned long rcx)
+{
+	unsigned long rbx = 0;
+	unsigned long rdx = 0;
+
+	return __encls_ret(EBLOCK, rbx, rcx, rdx);
+}
+
+static inline int __epa(void *epc)
+{
+	unsigned long rbx = PAGE_TYPE_VA;
+
+	return __encls(EPA, rbx, epc, "d"(0));
+}
+
+static inline int __ewb(struct page_info *pginfo, void *epc, void *va)
+{
+	return __encls_ret(EWB, pginfo, epc, va);
+}
+
 #endif /* _X86_ISGX_ARCH_H */

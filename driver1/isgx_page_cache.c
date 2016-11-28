@@ -25,7 +25,7 @@
 static LIST_HEAD(isgx_free_list);
 static DEFINE_SPINLOCK(isgx_free_list_lock);
 
-LIST_HEAD(isgx_tgid_ctx_list);
+LIST_HEAD(isgx_tgid_ctx_list);		//
 DEFINE_MUTEX(isgx_tgid_ctx_mutex);
 unsigned int isgx_nr_total_epc_pages;
 unsigned int isgx_nr_free_epc_pages;
@@ -315,18 +315,18 @@ static DECLARE_WAIT_QUEUE_HEAD(kisgxswapd_waitq);
 
 // 	isgx_unpin_mm(enclave);
 // }
-
-int kisgxswapd(void *p)
-{
-// 	struct isgx_enclave *encl;
-// 	LIST_HEAD(cluster);
-// 	DEFINE_WAIT(wait);
+// int kisgxswapd_iso(void)
+// // int kisgxswapd(void *p)
+// {
+// // 	struct isgx_enclave *encl;
+// // 	LIST_HEAD(cluster);
+// // 	DEFINE_WAIT(wait);
 // 	unsigned int nr_free;
 // 	unsigned int nr_high;
 
-// 	for ( ; ; ) {
-// 		if (kthread_should_stop())
-// 			break;
+// // 	for ( ; ; ) {
+// // 		if (kthread_should_stop())
+// // 			break;
 
 // 		spin_lock(&isgx_free_list_lock);
 // 		nr_free = isgx_nr_free_epc_pages;
@@ -334,81 +334,82 @@ int kisgxswapd(void *p)
 // 		spin_unlock(&isgx_free_list_lock);
 
 
-// 		if (nr_free < nr_high) {
-// 			encl = isolate_cluster(&cluster, ISGX_NR_SWAP_CLUSTER_MAX);
-// 			if (encl) {
-// 				evict_cluster(encl, &cluster);
-// 				kref_put(&encl->refcount, isgx_enclave_release);
-// 			}
+// // 		if (nr_free < nr_high) {
+// // 			encl = isolate_cluster(&cluster, ISGX_NR_SWAP_CLUSTER_MAX);
+// // 			if (encl) {
+// // 				evict_cluster(encl, &cluster);
+// // 				kref_put(&encl->refcount, isgx_enclave_release);
+// // 			}
 
-// 			schedule();
-// 		} else {
-// 			prepare_to_wait(&kisgxswapd_waitq,
-// 					&wait, TASK_INTERRUPTIBLE);
+// // 			schedule();
+// // 		} else {
+// // 			prepare_to_wait(&kisgxswapd_waitq,
+// // 					&wait, TASK_INTERRUPTIBLE);
 
-// 			if (!kthread_should_stop())
-// 				schedule();
+// // 			if (!kthread_should_stop())
+// // 				schedule();
 
-// 			finish_wait(&kisgxswapd_waitq, &wait);
-// 		}
-// 	}
+// // 			finish_wait(&kisgxswapd_waitq, &wait);
+// // 		}
+// // 	}
 
-	pr_info("%s: done\n", __func__);
-	return 0;
-}
-
-int isgx_page_cache_init(resource_size_t start, unsigned long size)
-{
-	printk("isgx_page_cache_init\n");
-// 	unsigned long i;
-// 	struct isgx_epc_page *new_epc_page, *entry;
-// 	struct list_head *parser, *temp;
-
-// 	for (i = 0; i < size; i += PAGE_SIZE) {
-// 		new_epc_page = kzalloc(sizeof(struct isgx_epc_page), GFP_KERNEL);
-// 		if (!new_epc_page)
-// 			goto err_freelist;
-// 		new_epc_page->pa = start + i;
-
-// 		spin_lock(&isgx_free_list_lock);
-// 		list_add_tail(&new_epc_page->free_list, &isgx_free_list);
-// 		isgx_nr_total_epc_pages++;
-// 		isgx_nr_free_epc_pages++;
-// 		spin_unlock(&isgx_free_list_lock);
-// 	}
-
-// 	isgx_nr_high_epc_pages = 2 * isgx_nr_low_epc_pages;
-	kisgxswapd_tsk = kthread_run(kisgxswapd, NULL, "kisgxswapd");
-
-	return 0;
-// err_freelist:
-// 	list_for_each_safe(parser, temp, &isgx_free_list) {
-// 		spin_lock(&isgx_free_list_lock);
-// 		entry = list_entry(parser, struct isgx_epc_page, free_list);
-// 		list_del(&entry->free_list);
-// 		spin_unlock(&isgx_free_list_lock);
-// 		kfree(entry);
-// 	}
-// 	return -ENOMEM;
-}
-EXPORT_SYMBOL(isgx_page_cache_init);
-// void isgx_page_cache_teardown(void)
-// {
-// 	struct isgx_epc_page *entry;
-// 	struct list_head *parser, *temp;
-
-// 	if (kisgxswapd_tsk)
-// 		kthread_stop(kisgxswapd_tsk);
-
-// 	spin_lock(&isgx_free_list_lock);
-// 	list_for_each_safe(parser, temp, &isgx_free_list) {
-// 		entry = list_entry(parser, struct isgx_epc_page, free_list);
-// 		list_del(&entry->free_list);
-// 		kfree(entry);
-// 	}
-// 	spin_unlock(&isgx_free_list_lock);
+// // 	pr_info("%s: done\n", __func__);
+// // 	return 0;
 // }
 
+int isgx_page_cache_init_iso(resource_size_t start, unsigned long size)
+{
+	unsigned long i;
+	struct isgx_epc_page *new_epc_page, *entry;
+	struct list_head *parser, *temp;
+
+	for (i = 0; i < size; i += PAGE_SIZE) {
+		new_epc_page = kzalloc(sizeof(struct isgx_epc_page), GFP_KERNEL);
+		if (!new_epc_page)
+			goto err_freelist;
+		new_epc_page->pa = start + i;
+
+		spin_lock(&isgx_free_list_lock);
+		list_add_tail(&new_epc_page->free_list, &isgx_free_list);
+		isgx_nr_total_epc_pages++;
+		isgx_nr_free_epc_pages++;
+		spin_unlock(&isgx_free_list_lock);
+	}
+
+	isgx_nr_high_epc_pages = 2 * isgx_nr_low_epc_pages;
+	//kisgxswapd_tsk = kthread_run(kisgxswapd, NULL, "kisgxswapd");
+	pr_info("%s: done\n", __func__);
+	return 0;
+err_freelist:
+	list_for_each_safe(parser, temp, &isgx_free_list) {
+		spin_lock(&isgx_free_list_lock);
+		entry = list_entry(parser, struct isgx_epc_page, free_list);
+		list_del(&entry->free_list);
+		spin_unlock(&isgx_free_list_lock);
+		kfree(entry);
+	}
+	return -ENOMEM;
+}
+EXPORT_SYMBOL(isgx_page_cache_init_iso);
+void isgx_page_cache_teardown_iso(void)
+{
+	struct isgx_epc_page *entry;
+	struct list_head *parser, *temp;
+
+	// if (kisgxswapd_tsk)
+	// 	printk("kisgxswapd is not NULL");
+	// 	kthread_stop(kisgxswapd_tsk);
+
+	spin_lock(&isgx_free_list_lock);
+	list_for_each_safe(parser, temp, &isgx_free_list) {
+		entry = list_entry(parser, struct isgx_epc_page, free_list);
+		list_del(&entry->free_list);
+		kfree(entry);
+	}
+	spin_unlock(&isgx_free_list_lock);
+	pr_info("%s: done\n", __func__);
+}
+EXPORT_SYMBOL(isgx_page_cache_teardown_iso);
 // static struct isgx_epc_page *isgx_alloc_epc_page_fast(void)
 // {
 // 	struct isgx_epc_page *entry = NULL;
@@ -466,24 +467,24 @@ EXPORT_SYMBOL(isgx_page_cache_init);
 // 	return entry;
 // }
 
-// void isgx_free_epc_page(struct isgx_epc_page *entry,
-// 			struct isgx_enclave *encl,
-// 			unsigned int flags)
-// {
-// 	BUG_ON(!entry);
+void isgx_free_epc_page(struct isgx_epc_page *entry,
+			struct isgx_enclave *encl,
+			unsigned int flags)
+{
+	BUG_ON(!entry);
 
-// 	if (encl) {
-// 		atomic_dec(&encl->tgid_ctx->epc_cnt);
+	if (encl) {
+		atomic_dec(&encl->tgid_ctx->epc_cnt);
 
-// 		if (encl->flags & ISGX_ENCLAVE_SUSPEND)
-// 			flags &= ~ISGX_FREE_EREMOVE;
-// 	}
+		if (encl->flags & ISGX_ENCLAVE_SUSPEND)
+			flags &= ~ISGX_FREE_EREMOVE;
+	}
 
-// 	if (flags & ISGX_FREE_EREMOVE)
-// 		BUG_ON(isgx_eremove(entry));
+	// if (flags & ISGX_FREE_EREMOVE)
+	// 	BUG_ON(isgx_eremove(entry));
 
-// 	spin_lock(&isgx_free_list_lock);
-// 	list_add(&entry->free_list, &isgx_free_list);
-// 	isgx_nr_free_epc_pages++;
-// 	spin_unlock(&isgx_free_list_lock);
-// }
+	spin_lock(&isgx_free_list_lock);
+	list_add(&entry->free_list, &isgx_free_list);
+	isgx_nr_free_epc_pages++;
+	spin_unlock(&isgx_free_list_lock);
+}
