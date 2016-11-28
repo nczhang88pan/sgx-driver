@@ -1,1 +1,0 @@
-cmd_/home/lbx/sgx-driver/driver2/isgx.o := ld -m elf_x86_64   -r -o /home/lbx/sgx-driver/driver2/isgx.o /home/lbx/sgx-driver/driver2/isgx_page_cache.o /home/lbx/sgx-driver/driver2/isgx_ioctl.o /home/lbx/sgx-driver/driver2/isgx_main.o 
