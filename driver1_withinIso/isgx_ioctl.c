@@ -132,7 +132,7 @@ int construct_enclave_page(struct isgx_enclave *enclave,
 				  struct isgx_enclave_page *entry,
 				  unsigned long addr)	//构建一个enclave页面,申请它的VA slot,并且填充它的内容
 {
-	printk("driver1: construct enclave page\n");
+	printk("driver1_withinIso: construct enclave page\n");
 // 	struct isgx_va_page *va_page;
 // 	struct isgx_epc_page *epc_page = NULL;
 // 	unsigned int va_offset = PAGE_SIZE;

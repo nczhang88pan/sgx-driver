@@ -203,7 +203,7 @@ enum {
 
 static inline unsigned long __ecreate(struct page_info *pginfo, void *secs)	//pageinfo包含了源SECS和secinfo的有效地址,(其中secs这个域没有被使用)
 {									//secs是目标secs的有效地址,它是EPC当中一个空的slot页(也就是这个地址之前被分配好了)
-	printk("driver1:__ecreate\n");
+	printk("driver1_withinIso:__ecreate\n");
 	return 0;
 	//return __encls(ECREATE, pginfo, secs, "d"(0));	//pageinfo的有效地址,目的SECS页的地址
 }

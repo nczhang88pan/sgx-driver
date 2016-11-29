@@ -53,13 +53,13 @@ u32 isgx_ssaframesize_tbl[64];
  */
 
 
-// static int isgx_mmap(struct file *file, struct vm_area_struct *vma);
+ static int isgx_mmap(struct file *file, struct vm_area_struct *vma);
 
-// static unsigned long isgx_get_unmapped_area(struct file *file,
-// 					    unsigned long addr,
-// 					    unsigned long len,
-// 					    unsigned long pgoff,
-// 					    unsigned long flags);
+ static unsigned long isgx_get_unmapped_area(struct file *file,
+ 					    unsigned long addr,
+ 					    unsigned long len,
+ 					    unsigned long pgoff,
+ 					    unsigned long flags);
 
 // #ifdef CONFIG_COMPAT
 // static long isgx_compat_ioctl(struct file *filep, unsigned int cmd,
@@ -75,8 +75,8 @@ static const struct file_operations isgx_fops = {
 // #ifdef CONFIG_COMPAT
 // 	.compat_ioctl	= isgx_compat_ioctl,
 // #endif
-// 	.mmap		= isgx_mmap,
-// 	.get_unmapped_area = isgx_get_unmapped_area,
+ 	.mmap		= isgx_mmap,
+ 	.get_unmapped_area = isgx_get_unmapped_area,
 };
 
 static struct miscdevice isgx_dev = {

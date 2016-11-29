@@ -11,7 +11,7 @@
 #include <linux/hashtable.h>
 #include <linux/kthread.h>
 #include "ops_test.h"
-//#include "../driver1/enclave_ops.h"
+//#include "../driver1_withinIso/enclave_ops.h"
 static int __init isgx_init(void)
 {
    	test();
